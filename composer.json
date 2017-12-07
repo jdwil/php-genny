@@ -1,0 +1,19 @@
+{
+    "name": "jdwil/php-genny",
+    "type": "library",
+    "authors": [
+        {
+            "name": "JD Williams",
+            "email": "me@jdwilliams.xyz"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "JDWil\\PhpGenny\\": "src/"
+        }
+    },
+    "require": {
+        "nikic/php-parser": "^3.1",
+        "jdwil/unify": "dev-master#0.1.1"
+    }
+}
