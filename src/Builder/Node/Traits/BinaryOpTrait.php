@@ -253,6 +253,15 @@ trait BinaryOpTrait
     }
 
     /**
+     * @param AbstractNode $node
+     * @return BinaryOp
+     */
+    public function instanceOf(AbstractNode $node): BinaryOp
+    {
+        return BinaryOp::instanceOf($this->validateBinaryOpClass(), $node);
+    }
+
+    /**
      * @return AbstractNode
      * @throws \Exception
      */

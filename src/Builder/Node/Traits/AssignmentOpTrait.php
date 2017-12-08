@@ -22,6 +22,11 @@ use JDWil\PhpGenny\Builder\Node\AssignmentOp;
  * @method powEquals(AbstractNode $value)
  * @method shiftLeftEquals(AbstractNode $value)
  * @method shiftRightEquals(AbstractNode $value)
+ * @method preIncrement()
+ * @method postIncrement()
+ * @method preDecrement()
+ * @method postDecrement()
+ * @method assignReference(AbstractNode $value)
  */
 trait AssignmentOpTrait
 {

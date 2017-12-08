@@ -30,6 +30,7 @@ use PhpParser\Node\Expr\BinaryOp\ShiftRight;
 use PhpParser\Node\Expr\BinaryOp\Smaller;
 use PhpParser\Node\Expr\BinaryOp\SmallerOrEqual;
 use PhpParser\Node\Expr\BinaryOp\Spaceship;
+use PhpParser\Node\Expr\Instanceof_;
 use TheSeer\Tokenizer\Exception;
 
 class BinaryOp extends AbstractNode implements ResultTypeInterface
@@ -61,6 +62,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
     const LESS_THAN_OR_EQUAL = 24;
     const SPACESHIP = 25;
     const LOGICAL_XOR = 26;
+    const INSTANCE_OF = 27;
 
     /**
      * @var AbstractNode
@@ -348,6 +350,16 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
     }
 
     /**
+     * @param AbstractNode $left
+     * @param AbstractNode $right
+     * @return BinaryOp
+     */
+    public static function instanceOf(AbstractNode $left, AbstractNode $right): BinaryOp
+    {
+        return self::createBinaryOp(self::INSTANCE_OF, $left, $right);
+    }
+
+    /**
      * @return InternalType|static
      */
     public function getResultType()
@@ -378,6 +390,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
             case self::LESS_THAN_OR_EQUAL:
             case self::IDENTICAL:
             case self::NOT_IDENTICAL:
+            case self::INSTANCE_OF:
                 return InternalType::bool();
 
             default:
@@ -442,6 +455,8 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
                 return $this->createPhpParserBinaryOp(Spaceship::class);
             case self::EQUAL:
                 return $this->createPhpParserBinaryOp(Equal::class);
+            case self::INSTANCE_OF:
+                return $this->createPhpParserBinaryOp(Instanceof_::class);
             default:
                 throw new Exception('Unknown BinaryOp type: ' . $this->type);
         }

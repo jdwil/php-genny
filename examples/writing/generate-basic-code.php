@@ -16,6 +16,8 @@ use JDWil\PhpGenny\Builder\Node\Parameter;
 use JDWil\PhpGenny\Builder\Node\Type;
 use JDWil\PhpGenny\Builder\Node\Cast;
 use JDWil\PhpGenny\Builder\Node\ResultOf;
+use JDWil\PhpGenny\Builder\Node\NewInstance;
+use JDWil\PhpGenny\Builder\Node\Logic;
 
 $c = new Class_('Foo');
 $oc = new Class_('Widget');
@@ -38,13 +40,55 @@ $m->addParameter(
 //$m->getBody()->return(Cast::toBool(ResultOf::is_int(Variable::named('myStr'))));
 $m
     ->getBody()
-    ->if(Variable::named('myStr')->isEqualTo(Scalar::string('default')))
-        ->return(Type::true())
+//    ->if(Variable::named('myStr')->isEqualTo(Scalar::string('default')))
+//        ->return(Type::true())
 //    ->elseIf(Variable::named('myStr')->isEqualTo(Scalar::string('foo')))
 //        ->return(Type::true())
 //    ->else()
 //        ->return(Type::false())
+//    ->done()
+//    ->for(
+//        Variable::named('x')->equals(Scalar::int(0)),
+//        Variable::named('x')->isLessThan(Scalar::int(10)),
+//        Variable::named('x')->postIncrement()
+//    )
+//        ->execute(Variable::named('y')->plusEquals(Scalar::int(2)))
+//    ->done()
+//    ->while(Variable::named('x')->isLessThan(Scalar::int(10)))
+//        ->execute(Variable::named('x')->postIncrement())
+//    ->done()
+//    ->do()
+//        ->execute(Variable::named('x')->postIncrement())
+//    ->while(Variable::named('x')->isLessThan(Scalar::int(10)))
+//    ->try()
+//        ->execute(Variable::named('x')->equals(Scalar::int(3333)))
+//    ->catch(['\\Exception'], 'e')
+//        ->throw(NewInstance::of('\\Exception', [Scalar::string('The thing messed up')]))
+//    ->finally()
+//        ->execute(Variable::named('y')->equals(Scalar::string('done')))
+//    ->done()
+//    ->switch(Variable::named('foo'))
+//        ->case(Scalar::int(1))
+//            ->return(Type::false())
+//        ->done()
+//        ->case(Scalar::int(2))
+//            ->return(Type::true())
+//        ->done()
+//    ->done()
+    ->foreach(Variable::named('foos'), Variable::named('foo'))
+        ->echo(Variable::named('foo'))
     ->done()
+    ->if(Variable::named('foo')->instanceOf(Scalar::string('Foo\\Bar')))
+        ->echo(Scalar::string('got it'))
+    ->done()
+    ->execute(Variable::named('result')->equals(Type::list(Variable::named('someArray'))))
+    ->echo(Variable::named('arr')
+        ->equals(
+            ResultOf::array_map(Variable::named('func'), Variable::named('val'))
+                ->arrayIndex(Scalar::int(1))
+        )
+    )
+    ->execute(Variable::named('arr')->assignReference(Variable::named('bar')))
     ->execute(Variable::named('x')->equals(Scalar::int(3)))
 ;
 $c->addMethod($m);

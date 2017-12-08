@@ -8,6 +8,7 @@ use JDWil\PhpGenny\Builder\Node\Func;
 /**
  * Trait InternalFunctionTrait
  *
+ * @method eval($code)
  * @method zend_version()
  * @method func_num_args()
  * @method func_get_arg($arg_num)
@@ -1432,12 +1433,22 @@ use JDWil\PhpGenny\Builder\Node\Func;
  */
 trait InternalFunctionTrait
 {
-    protected static function handleInternalFunctionCall(string $name, array $arguments)
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return Func
+     * @throws \Exception
+     */
+    protected static function handleInternalFunctionCall(string $name, array $arguments): Func
     {
         if (function_exists($name)) {
             return Func::call($name, $arguments);
         }
 
-        return false;
+        if ('eval' === $name) {
+            return Func::call($name, $arguments);
+        }
+
+        throw new \Exception('Unknown internal function: ' . $name);
     }
 }

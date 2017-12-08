@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Builder\Node;
 
+use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ConstFetch;
+use PhpParser\Node\Expr\List_;
 use PhpParser\Node\Name;
 
 class Type extends AbstractNode
@@ -11,8 +13,12 @@ class Type extends AbstractNode
     const NULL = 'null';
     const FALSE = 'false';
     const TRUE = 'true';
+    const ARRAY = 'array';
+    const LIST = 'list';
 
     protected $type;
+    protected $params;
+    protected $attributes;
 
     public static function null()
     {
@@ -29,6 +35,18 @@ class Type extends AbstractNode
         return static::buildType(self::FALSE);
     }
 
+    public static function array(array $values = [], bool $shortHand = true)
+    {
+        return static::buildType(self::ARRAY, $values, [
+            'kind' => $shortHand ? Array_::KIND_SHORT : Array_::KIND_LONG
+        ]);
+    }
+
+    public static function list(AbstractNode $subject)
+    {
+        return static::buildType(self::LIST, [$subject]);
+    }
+
     /**
      * @return bool
      */
@@ -39,13 +57,31 @@ class Type extends AbstractNode
 
     public function getStatements()
     {
-        return new ConstFetch(new Name($this->type));
+        switch ($this->type) {
+            case self::ARRAY:
+                return new Array_(
+                    array_map(function (AbstractNode $node) {
+                        return $node->getStatements();
+                    }, $this->params),
+                    $this->attributes
+                );
+
+            case self::LIST:
+                return new List_(array_map(function (AbstractNode $node) {
+                    return $node->getStatements();
+                }, $this->params));
+
+            default:
+                return new ConstFetch(new Name($this->type));
+        }
     }
 
-    private static function buildType(string $type)
+    private static function buildType(string $type, array $params = [], array $attributes = [])
     {
         $ret = new static();
         $ret->type = $type;
+        $ret->params = $params;
+        $ret->attributes = $attributes;
 
         return $ret;
     }

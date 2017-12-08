@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Builder\Node;
 
+use JDWil\PhpGenny\Builder\Node\Traits\ArrayAccessTrait;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 
 class Func extends AbstractNode
 {
+    use ArrayAccessTrait;
+
     /**
      * @var string
      */

@@ -16,6 +16,11 @@ use PhpParser\Node\Expr\AssignOp\Plus;
 use PhpParser\Node\Expr\AssignOp\Pow;
 use PhpParser\Node\Expr\AssignOp\ShiftLeft;
 use PhpParser\Node\Expr\AssignOp\ShiftRight;
+use PhpParser\Node\Expr\AssignRef;
+use PhpParser\Node\Expr\PostDec;
+use PhpParser\Node\Expr\PostInc;
+use PhpParser\Node\Expr\PreDec;
+use PhpParser\Node\Expr\PreInc;
 
 /**
  * Class AssignmentOp
@@ -33,6 +38,11 @@ use PhpParser\Node\Expr\AssignOp\ShiftRight;
  * @method static powEquals(AbstractNode $variable, AbstractNode $value)
  * @method static shiftLeftEquals(AbstractNode $variable, AbstractNode $value)
  * @method static shiftRightEquals(AbstractNode $variable, AbstractNode $value)
+ * @method static postIncrement()
+ * @method static preIncrement()
+ * @method static postDecrement()
+ * @method static preDecrement()
+ * @method static assignReference(AbstractNode $variable, AbstractNode $value)
  */
 class AssignmentOp extends AbstractNode
 {
@@ -49,6 +59,11 @@ class AssignmentOp extends AbstractNode
     const POWEQUALS = Pow::class;
     const SHIFTLEFTEQUALS = ShiftLeft::class;
     const SHIFTRIGHTEQUALS = ShiftRight::class;
+    const POSTINCREMENT = PostInc::class;
+    const PREINCREMENT = PreInc::class;
+    const POSTDECREMENT = PostDec::class;
+    const PREDECREMENT = PreDec::class;
+    const ASSIGNREFERENCE = AssignRef::class;
 
     /**
      * @var string
@@ -77,10 +92,14 @@ class AssignmentOp extends AbstractNode
 
     public function getStatements()
     {
-        return new $this->type($this->variable->getStatements(), $this->value->getStatements());
+        if (null !== $this->value) {
+            return new $this->type($this->variable->getStatements(), $this->value->getStatements());
+        } else {
+            return new $this->type($this->variable->getStatements());
+        }
     }
 
-    protected static function createAssignmentOp(string $type, AbstractNode $variable, AbstractNode $value)
+    protected static function createAssignmentOp(string $type, AbstractNode $variable, AbstractNode $value = null)
     {
         $ret = new AssignmentOp();
         $ret->type = $type;

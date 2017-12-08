@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Builder\Node;
 
+use JDWil\PhpGenny\Builder\Node\Traits\ArrayAccessTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\AssignmentOpTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\BinaryOpTrait;
 use PhpParser\Node\Expr\PropertyFetch;
@@ -11,6 +12,7 @@ class Variable extends AbstractNode
 {
     use BinaryOpTrait;
     use AssignmentOpTrait;
+    use ArrayAccessTrait;
 
     protected $name;
 
