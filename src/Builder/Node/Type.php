@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Builder\Node;
 
+use JDWil\PhpGenny\ValueObject\InternalType;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\List_;
 use PhpParser\Node\Name;
 
-class Type extends AbstractNode
+class Type extends AbstractNode implements ResultTypeInterface
 {
     const NULL = 'null';
     const FALSE = 'false';
@@ -84,5 +85,31 @@ class Type extends AbstractNode
         $ret->attributes = $attributes;
 
         return $ret;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return InternalType|string
+     */
+    public function getResultType()
+    {
+        switch ($this->type) {
+            case self::TRUE:
+            case self::FALSE:
+                return InternalType::bool();
+            case self::NULL:
+                return InternalType::null();
+            case self::ARRAY:
+                return InternalType::array();
+            default:
+                return null;
+        }
     }
 }

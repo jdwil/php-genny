@@ -44,4 +44,15 @@ class Array_ extends AbstractNode
                 return new ArrayDimFetch($this->var->getStatements(), $index);
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [
+            'var' => $this->var,
+            'index' => $this->index
+        ];
+    }
 }

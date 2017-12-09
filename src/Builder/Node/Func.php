@@ -43,4 +43,14 @@ class Func extends AbstractNode
 
         return new FuncCall(new Name($this->name), $arguments);
     }
+
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [
+            'arguments' => $this->arguments
+        ];
+    }
 }

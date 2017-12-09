@@ -67,4 +67,15 @@ class Switch_ extends AbstractNode
             }, $this->cases)
         );
     }
+
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [
+            'subject' => $this->subject,
+            'cases' => $this->cases
+        ];
+    }
 }

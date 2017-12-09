@@ -370,7 +370,18 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
             case self::DIVIDE:
             case self::MULTIPLY:
             case self::MOD:
-                // @todo check for floats
+                if ($this->left instanceof ResultTypeInterface &&
+                    ((string) $this->left->getResultType()) === InternalType::FLOAT
+                ) {
+                    return InternalType::float();
+                }
+
+                if ($this->right instanceof ResultTypeInterface &&
+                    ((string) $this->right->getResultType()) === InternalType::FLOAT
+                ) {
+                    return InternalType::float();
+                }
+
                 return InternalType::int();
 
             case self::BITWISE_XOR:
@@ -475,5 +486,16 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
         $ret->right = $right;
 
         return $ret;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [
+            'left' => $this->left,
+            'right' => $this->right
+        ];
     }
 }

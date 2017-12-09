@@ -94,4 +94,14 @@ class Cast extends AbstractNode implements ResultTypeInterface
     {
         return InternalType::{$this->type}();
     }
+
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [
+            'argument' => $this->argument
+        ];
+    }
 }

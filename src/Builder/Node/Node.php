@@ -61,4 +61,14 @@ class Node extends AbstractNode
             return $value;
         }, $this->params));
     }
+
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [
+            'params' => $this->params
+        ];
+    }
 }

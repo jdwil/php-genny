@@ -2,21 +2,17 @@
 declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Type;
+use JDWil\PhpGenny\Type\Traits\HasConstantsTrait;
+use JDWil\PhpGenny\Type\Traits\HasNamespaceTrait;
+use JDWil\PhpGenny\ValueObject\Visibility;
 
 /**
  * Class Interface_
  */
-class Interface_
+class Interface_ implements NamespaceInterface, HasConstantsInterface
 {
-    /**
-     * @var string
-     */
-    protected $namespace;
-
-    /**
-     * @var string
-     */
-    protected $name;
+    use HasNamespaceTrait;
+    use HasConstantsTrait;
 
     /**
      * @var Interface_[]|string[]
@@ -37,22 +33,6 @@ class Interface_
         $this->name = $name;
         $this->extends = [];
         $this->methods = [];
-    }
-
-    /**
-     * @return string
-     */
-    public function getNamespace(): string
-    {
-        return $this->namespace;
-    }
-
-    /**
-     * @param string $namespace
-     */
-    public function setNamespace(string $namespace)
-    {
-        $this->namespace = $namespace;
     }
 
     /**
@@ -84,9 +64,14 @@ class Interface_
 
     /**
      * @param Method $method
+     * @throws \Exception
      */
     public function addMethod(Method $method)
     {
+        if ((string) $method->getVisibility() !== Visibility::PUBLIC) {
+            throw new \Exception('Interface methods must be public');
+        }
+
         $this->methods[] = $method;
     }
 
@@ -107,21 +92,5 @@ class Interface_
     public function getMethods(): array
     {
         return $this->methods;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFqn(): string
-    {
-        return sprintf('%s\\%s', $this->namespace, $this->name);
     }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Builder\Node;
 
+use JDWil\PhpGenny\Builder\Node\Traits\DocBlockTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\NestedNodeTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\StaticTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\VisibilityTrait;
@@ -14,6 +15,7 @@ class ClassConstant extends AbstractNode
     use VisibilityTrait;
     use StaticTrait;
     use NestedNodeTrait;
+    use DocBlockTrait;
 
     /**
      * @var string
@@ -50,5 +52,15 @@ class ClassConstant extends AbstractNode
         $flags = $this->addStaticFlag($flags);
 
         return new ClassConst([new Const_($this->name, $this->value->getStatements())], $flags);
+    }
+
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [
+            'value' => $this->value
+        ];
     }
 }

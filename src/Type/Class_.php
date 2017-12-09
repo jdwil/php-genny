@@ -4,22 +4,17 @@ declare(strict_types=1);
 namespace JDWil\PhpGenny\Type;
 
 use JDWil\PhpGenny\Builder\Node\Traits\NodeBehaviorTrait;
+use JDWil\PhpGenny\Type\Traits\HasConstantsTrait;
+use JDWil\PhpGenny\Type\Traits\HasNamespaceTrait;
 use JDWil\PhpGenny\ValueObject\Visibility;
 
 /**
  * Class Class_
  */
-class Class_
+class Class_ implements NamespaceInterface, HasConstantsInterface
 {
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $namespace;
+    use HasNamespaceTrait;
+    use HasConstantsTrait;
 
     /**
      * @var bool
@@ -40,11 +35,6 @@ class Class_
      * @var Interface_[]|string[]
      */
     protected $implements;
-
-    /**
-     * @var array
-     */
-    protected $constants;
 
     /**
      * @var Property[]
@@ -69,22 +59,6 @@ class Class_
         $this->properties = [];
         $this->methods = [];
         $this->constants = [];
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getNamespace()
-    {
-        return $this->namespace;
-    }
-
-    /**
-     * @param string $namespace
-     */
-    public function setNamespace(string $namespace)
-    {
-        $this->namespace = $namespace;
     }
 
     /**
@@ -141,6 +115,12 @@ class Class_
     public function implements(Interface_ $implement)
     {
         $this->implements[] = $implement;
+
+        foreach ($implement->getMethods() as $method) {
+            if (!$this->hasMethod($method)) {
+                $this->addMethod($method);
+            }
+        }
     }
 
     /**
@@ -160,30 +140,6 @@ class Class_
     public function getImplements(): array
     {
         return $this->implements;
-    }
-
-    /**
-     * @param string $name
-     * @param $value
-     * @param Visibility|null $visibility
-     * @param bool $static
-     */
-    public function addConstant(string $name, $value, Visibility $visibility = null, bool $static = false)
-    {
-        $this->constants[] = [
-            'name' => $name,
-            'value' => $value,
-            'visibility' => $visibility,
-            'static' => $static
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function getConstants(): array
-    {
-        return $this->constants;
     }
 
     /**
@@ -231,6 +187,21 @@ class Class_
 
     /**
      * @param Method $method
+     * @return bool
+     */
+    public function hasMethod(Method $method): bool
+    {
+        foreach ($this->methods as $m) {
+            if ($m->getName() === $method->getName()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Method $method
      */
     public function removeMethod(Method $method)
     {
@@ -238,21 +209,5 @@ class Class_
         if ($key !== false) {
             array_splice($this->methods, $key, 1);
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFqn(): string
-    {
-        return sprintf('%s\\%s', $this->namespace, $this->name);
     }
 }

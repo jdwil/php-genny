@@ -8,4 +8,6 @@ abstract class AbstractNode
     protected function __construct() {}
 
     abstract public function getStatements();
+
+    abstract public function getNodes(): array;
 }

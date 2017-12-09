@@ -78,4 +78,14 @@ class Parameter extends AbstractNode
 
         return new Param($this->name, $default, (string) $this->type, $this->byRef, $this->variadic);
     }
+
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [
+            'default' => $this->default
+        ];
+    }
 }

@@ -12,19 +12,27 @@ trait DocBlockTrait
         $this->comments = $comments;
     }
 
-    public function getComments(bool $returnLineBreakWhenEmpty = false)
+    public function getComments()
     {
         if (empty($this->comments)) {
-            return $returnLineBreakWhenEmpty ? "\n" : null;
+            return null;
         }
 
-        $ret = "\n/**\n";
+        $ret = "/**\n";
         foreach ($this->comments as $comment) {
             $ret .= ' * ' . $comment . "\n";
         }
         $ret .= ' */';
 
         return $ret;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasComment(): bool
+    {
+        return (bool) count($this->comments);
     }
 
     public function addComment(string $comment)

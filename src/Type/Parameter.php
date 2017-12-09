@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Type;
 
+use JDWil\PhpGenny\Builder\Node\Scalar;
+use JDWil\PhpGenny\Builder\Node\Type;
 use JDWil\PhpGenny\ValueObject\InternalType;
 
 class Parameter
@@ -56,7 +58,7 @@ class Parameter
     }
 
     /**
-     * @return mixed
+     * @return Scalar|Class_|Interface_|Type
      */
     public function getDefaultValue()
     {

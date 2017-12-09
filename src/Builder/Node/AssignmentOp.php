@@ -108,4 +108,15 @@ class AssignmentOp extends AbstractNode
 
         return $ret;
     }
+
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [
+            'variable' => $this->variable,
+            'value' => $this->value
+        ];
+    }
 }

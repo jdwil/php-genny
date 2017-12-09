@@ -59,4 +59,12 @@ class Scalar extends AbstractNode implements ResultTypeInterface
     {
         return new $this->type($this->value);
     }
+
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [];
+    }
 }

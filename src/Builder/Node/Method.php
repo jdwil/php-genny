@@ -116,6 +116,18 @@ class Method extends Builder
             $returnType = $this->nullableReturnType ? new NullableType((string) $this->returnType) : (string) $this->returnType;
         }
 
+        if (empty($this->nodes)) {
+            if ($this->parent instanceof Interface_ || $this->abstract) {
+                $stmts = null;
+            } else {
+                $stmts = [];
+            }
+        } else {
+            $stmts = array_map(function (AbstractNode $node) {
+                return $node->getStatements();
+            }, $this->nodes);
+        }
+
         $subNodes = [
             'flags' => $flags,
             'byRef' => false,
@@ -123,13 +135,13 @@ class Method extends Builder
                 return $parameter->getStatements();
             }, $this->parameters),
             'returnType' => $returnType,
-            'stmts' => array_map(function (AbstractNode $node) {
-                return $node->getStatements();
-            }, $this->nodes)
+            'stmts' => $stmts
         ];
 
         $ret = new ClassMethod($this->name, $subNodes);
-        $ret->setDocComment(new Doc($this->getComments(true)));
+        if ($this->hasComment()) {
+            $ret->setDocComment(new Doc($this->getComments()));
+        }
 
         return $ret;
     }
