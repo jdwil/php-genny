@@ -6,15 +6,17 @@ namespace JDWil\PhpGenny\Type;
 use JDWil\PhpGenny\Builder\Node\Traits\NodeBehaviorTrait;
 use JDWil\PhpGenny\Type\Traits\HasConstantsTrait;
 use JDWil\PhpGenny\Type\Traits\HasNamespaceTrait;
+use JDWil\PhpGenny\Type\Traits\HasTraitsTrait;
 use JDWil\PhpGenny\ValueObject\Visibility;
 
 /**
  * Class Class_
  */
-class Class_ implements NamespaceInterface, HasConstantsInterface
+class Class_ implements NamespaceInterface, HasConstantsInterface, HasTraitsInterface
 {
     use HasNamespaceTrait;
     use HasConstantsTrait;
+    use HasTraitsTrait;
 
     /**
      * @var bool

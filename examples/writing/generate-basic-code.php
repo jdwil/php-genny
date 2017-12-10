@@ -20,6 +20,22 @@ use JDWil\PhpGenny\Builder\Node\Logic;
 use JDWil\PhpGenny\Type\Parameter;
 use JDWil\PhpGenny\Type\Interface_;
 
+$b = new Builder();
+$b
+    ->class('TestClass')
+    ->use(['A', 'B'])
+        ->use('B', 'smallTalk')->insteadOf('A')
+        ->use('A', 'bigTalk')->insteadOf('B')
+        ->alias('B', 'bigTalk')->as('talk', Visibility::isProtected())
+    ->done()
+;
+
+$prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
+
+$result = $prettyPrinter->prettyPrintFile($b->getStatements());
+echo $result . "\n";
+die();
+
 $method = new Method(
     'doSomethingAwesome',
     Visibility::isPublic(),

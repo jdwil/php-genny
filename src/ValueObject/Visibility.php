@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace JDWil\PhpGenny\ValueObject;
+use PhpParser\Node\Stmt\Class_;
 
 /**
  * Class Visibility
@@ -60,5 +61,20 @@ class Visibility
     public function __toString(): string
     {
         return $this->value;
+    }
+
+    /**
+     * @return int
+     */
+    public function toPhpParserConstant(): int
+    {
+        switch ($this->value) {
+            case self::PUBLIC:
+                return Class_::MODIFIER_PUBLIC;
+            case self::PROTECTED:
+                return Class_::MODIFIER_PROTECTED;
+            case self::PRIVATE:
+                return Class_::MODIFIER_PRIVATE;
+        }
     }
 }

@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Type;
 
-class Trait_
+use JDWil\PhpGenny\Type\Traits\HasNamespaceTrait;
+use JDWil\PhpGenny\Type\Traits\HasTraitsTrait;
+
+class Trait_ implements NamespaceInterface, HasTraitsInterface
 {
-    /**
-     * @var string
-     */
-    protected $namespace;
+    use HasNamespaceTrait;
+    use HasTraitsTrait;
 
     /**
      * @var Property[]
@@ -30,22 +31,6 @@ class Trait_
     }
 
     /**
-     * @return string
-     */
-    public function getNamespace(): string
-    {
-        return $this->namespace;
-    }
-
-    /**
-     * @param string $namespace
-     */
-    public function setNamespace(string $namespace)
-    {
-        $this->namespace = $namespace;
-    }
-
-    /**
      * @param Property $property
      */
     public function addProperty(Property $property)
@@ -58,7 +43,8 @@ class Trait_
      */
     public function removeProperty(Property $property)
     {
-        if ($key = array_search($property, $this->properties, true) !== false) {
+        $key = array_search($property, $this->properties, true);
+        if ($key !== false) {
             array_splice($this->properties, $key, 1);
         }
     }
@@ -76,7 +62,8 @@ class Trait_
      */
     public function removeMethod(Method $method)
     {
-        if ($key = array_search($method, $this->methods, true) !== false) {
+        $key = array_search($method, $this->methods, true);
+        if ($key !== false) {
             array_splice($this->methods, $key, 1);
         }
     }

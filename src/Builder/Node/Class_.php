@@ -159,6 +159,23 @@ class Class_ extends AbstractNode implements HasNodeBehaviorInterface
     }
 
     /**
+     * @param $trait
+     * @return UseTrait
+     */
+    public function use($trait): UseTrait
+    {
+        if (is_string($trait)) {
+            $trait = [$trait];
+        }
+
+        $ret = UseTrait::new($trait);
+        $ret->setParent($this);
+        $this->nodes[] = $ret;
+
+        return $ret;
+    }
+
+    /**
      * @return \PhpParser\Node\Stmt\Class_
      */
     public function getStatements()

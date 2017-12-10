@@ -118,6 +118,10 @@ class BuilderFactory implements HasNodeBehaviorInterface
             }
         }
 
+        foreach ($class->getTraits() as $trait) {
+            $c->use($trait->getName());
+        }
+
         $this->addConstants($class->getConstants(), $c);
 
         $properties = $class->getProperties();
@@ -202,6 +206,12 @@ class BuilderFactory implements HasNodeBehaviorInterface
         foreach ($class->getImplements() as $implement) {
             if ($implement instanceof Interface_) {
                 $ret[] = $implement->getFqn();
+            }
+        }
+
+        foreach ($class->getTraits() as $trait) {
+            if ($trait->getNamespace() !== $class->getNamespace()) {
+                $ret[] = $trait->getFqn();
             }
         }
 
