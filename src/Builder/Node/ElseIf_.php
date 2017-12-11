@@ -5,6 +5,9 @@ namespace JDWil\PhpGenny\Builder\Node;
 
 use JDWil\PhpGenny\Builder\Builder;
 
+/**
+ * Class ElseIf_
+ */
 class ElseIf_ extends Builder
 {
     /**
@@ -12,7 +15,11 @@ class ElseIf_ extends Builder
      */
     protected $condition;
 
-    public static function new(AbstractNode $condition)
+    /**
+     * @param AbstractNode $condition
+     * @return ElseIf_
+     */
+    public static function new(AbstractNode $condition): ElseIf_
     {
         $ret = new static();
         $ret->condition = $condition;
@@ -20,8 +27,16 @@ class ElseIf_ extends Builder
         return $ret;
     }
 
-    public function else()
+    /**
+     * @return Else_
+     * @throws \Exception
+     */
+    public function else(): Else_
     {
+        if (!$this->parent instanceof If_) {
+            throw new \Exception('Parent of ElseIf_ must be If_');
+        }
+
         $ret = Else_::new();
         $ret->setParent($this->parent);
         $this->parent->else = $ret;
@@ -29,6 +44,10 @@ class ElseIf_ extends Builder
         return $ret;
     }
 
+    /**
+     * @return Builder
+     * @throws \Exception
+     */
     public function done(): Builder
     {
         if (!$this->parent instanceof If_) {
@@ -38,7 +57,10 @@ class ElseIf_ extends Builder
         return $this->parent->parent;
     }
 
-    public function getStatements()
+    /**
+     * @return \PhpParser\Node\Stmt\ElseIf_
+     */
+    public function getStatements(): \PhpParser\Node\Stmt\ElseIf_
     {
         return new \PhpParser\Node\Stmt\ElseIf_(
             $this->condition->getStatements(),

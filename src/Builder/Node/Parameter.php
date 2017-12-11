@@ -6,6 +6,9 @@ namespace JDWil\PhpGenny\Builder\Node;
 use JDWil\PhpGenny\ValueObject\InternalType;
 use PhpParser\Node\Param;
 
+/**
+ * Class Parameter
+ */
 class Parameter extends AbstractNode
 {
     /**
@@ -33,7 +36,11 @@ class Parameter extends AbstractNode
      */
     protected $default;
 
-    public static function named(string $name)
+    /**
+     * @param string $name
+     * @return Parameter
+     */
+    public static function named(string $name): Parameter
     {
         $ret = new Parameter();
         $ret->name = $name;
@@ -41,6 +48,10 @@ class Parameter extends AbstractNode
         return $ret;
     }
 
+    /**
+     * @param InternalType|string $type
+     * @return $this
+     */
     public function setType($type)
     {
         $this->type = $type;
@@ -48,6 +59,9 @@ class Parameter extends AbstractNode
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function makeByRef()
     {
         $this->byRef = true;
@@ -55,6 +69,9 @@ class Parameter extends AbstractNode
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function makeVariadic()
     {
         $this->variadic = true;
@@ -62,6 +79,10 @@ class Parameter extends AbstractNode
         return $this;
     }
 
+    /**
+     * @param AbstractNode $default
+     * @return $this
+     */
     public function setDefault(AbstractNode $default)
     {
         $this->default = $default;
@@ -69,7 +90,10 @@ class Parameter extends AbstractNode
         return $this;
     }
 
-    public function getStatements()
+    /**
+     * @return Param
+     */
+    public function getStatements(): Param
     {
         $default = $this->default ?
             $this->default->getStatements() :

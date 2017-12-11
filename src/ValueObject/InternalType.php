@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\ValueObject;
 
-use JDWil\PhpGenny\Builder\Node\AbstractNode;
-use JDWil\PhpGenny\Builder\Node\Scalar;
-use JDWil\PhpGenny\Builder\Node\Type;
 use JDWil\PhpGenny\Type\Class_;
 
 class InternalType

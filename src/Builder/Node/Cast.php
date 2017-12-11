@@ -84,6 +84,8 @@ class Cast extends AbstractNode implements ResultTypeInterface
                 return new Bool_($this->argument->getStatements());
             case self::OBJECT:
                 return new Object_($this->argument->getStatements());
+            default:
+                return new String_($this->argument->getStatements());
         }
     }
 

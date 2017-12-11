@@ -6,7 +6,6 @@ namespace JDWil\PhpGenny\Builder\Node;
 use JDWil\PhpGenny\ValueObject\InternalType;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ConstFetch;
-use PhpParser\Node\Expr\List_;
 use PhpParser\Node\Name;
 
 class Type extends AbstractNode implements ResultTypeInterface
@@ -15,7 +14,6 @@ class Type extends AbstractNode implements ResultTypeInterface
     const FALSE = 'false';
     const TRUE = 'true';
     const ARRAY = 'array';
-    const LIST = 'list';
 
     protected $type;
     protected $params;
@@ -43,9 +41,13 @@ class Type extends AbstractNode implements ResultTypeInterface
         ]);
     }
 
-    public static function list(AbstractNode $subject)
+    /**
+     * @param array ...$vars
+     * @return List_
+     */
+    public static function list(...$vars): List_
     {
-        return static::buildType(self::LIST, [$subject]);
+        return List_::new(...$vars);
     }
 
     /**
@@ -66,11 +68,6 @@ class Type extends AbstractNode implements ResultTypeInterface
                     }, $this->params),
                     $this->attributes
                 );
-
-            case self::LIST:
-                return new List_(array_map(function (AbstractNode $node) {
-                    return $node->getStatements();
-                }, $this->params));
 
             default:
                 return new ConstFetch(new Name($this->type));

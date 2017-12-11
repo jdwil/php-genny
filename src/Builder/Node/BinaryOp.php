@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\BinaryOp\BitwiseXor;
 use PhpParser\Node\Expr\BinaryOp\BooleanAnd;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use PhpParser\Node\Expr\BinaryOp\Coalesce;
+use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\BinaryOp\Div;
 use PhpParser\Node\Expr\BinaryOp\Equal;
 use PhpParser\Node\Expr\BinaryOp\Greater;
@@ -31,7 +32,6 @@ use PhpParser\Node\Expr\BinaryOp\Smaller;
 use PhpParser\Node\Expr\BinaryOp\SmallerOrEqual;
 use PhpParser\Node\Expr\BinaryOp\Spaceship;
 use PhpParser\Node\Expr\Instanceof_;
-use TheSeer\Tokenizer\Exception;
 
 class BinaryOp extends AbstractNode implements ResultTypeInterface
 {
@@ -433,7 +433,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
             case self::COALESCE:
                 return $this->createPhpParserBinaryOp(Coalesce::class);
             case self::CONCAT:
-                return $this->createPhpParserBinaryOp(\PhpParser\Node\Expr\BinaryOp\Concat::class);
+                return $this->createPhpParserBinaryOp(Concat::class);
             case self::GREATER_THAN:
                 return $this->createPhpParserBinaryOp(Greater::class);
             case self::GREATER_THAN_OR_EQUAL:
@@ -469,7 +469,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
             case self::INSTANCE_OF:
                 return $this->createPhpParserBinaryOp(Instanceof_::class);
             default:
-                throw new Exception('Unknown BinaryOp type: ' . $this->type);
+                throw new \Exception('Unknown BinaryOp type: ' . $this->type);
         }
     }
 

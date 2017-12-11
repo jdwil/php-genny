@@ -3,20 +3,22 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Type;
 
-use JDWil\PhpGenny\Builder\Node\Traits\NodeBehaviorTrait;
 use JDWil\PhpGenny\Type\Traits\HasConstantsTrait;
+use JDWil\PhpGenny\Type\Traits\HasMethodsTrait;
 use JDWil\PhpGenny\Type\Traits\HasNamespaceTrait;
+use JDWil\PhpGenny\Type\Traits\HasPropertiesTrait;
 use JDWil\PhpGenny\Type\Traits\HasTraitsTrait;
-use JDWil\PhpGenny\ValueObject\Visibility;
 
 /**
  * Class Class_
  */
-class Class_ implements NamespaceInterface, HasConstantsInterface, HasTraitsInterface
+class Class_ implements HasConstantsInterface, HasTraitsInterface, HasPropertiesInterface, HasMethodsInterface
 {
     use HasNamespaceTrait;
     use HasConstantsTrait;
     use HasTraitsTrait;
+    use HasPropertiesTrait;
+    use HasMethodsTrait;
 
     /**
      * @var bool
@@ -39,16 +41,6 @@ class Class_ implements NamespaceInterface, HasConstantsInterface, HasTraitsInte
     protected $implements;
 
     /**
-     * @var Property[]
-     */
-    protected $properties;
-
-    /**
-     * @var Method[]
-     */
-    protected $methods;
-
-    /**
      * Class_ constructor.
      * @param string $name
      */
@@ -58,9 +50,6 @@ class Class_ implements NamespaceInterface, HasConstantsInterface, HasTraitsInte
         $this->abstract = false;
         $this->final = false;
         $this->implements = [];
-        $this->properties = [];
-        $this->methods = [];
-        $this->constants = [];
     }
 
     /**
@@ -142,74 +131,5 @@ class Class_ implements NamespaceInterface, HasConstantsInterface, HasTraitsInte
     public function getImplements(): array
     {
         return $this->implements;
-    }
-
-    /**
-     * @param Property $property
-     */
-    public function addProperty(Property $property)
-    {
-        $this->properties[] = $property;
-    }
-
-    /**
-     * @param Property $property
-     */
-    public function removeProperty(Property $property)
-    {
-        $key = array_search($property, $this->properties, true);
-        if ($key !== false) {
-            array_splice($this->properties, $key, 1);
-        }
-    }
-
-    /**
-     * @return Property[]
-     */
-    public function getProperties(): array
-    {
-        return $this->properties;
-    }
-
-    /**
-     * @param Method $method
-     */
-    public function addMethod(Method $method)
-    {
-        $this->methods[] = $method;
-    }
-
-    /**
-     * @return Method[]
-     */
-    public function getMethods(): array
-    {
-        return $this->methods;
-    }
-
-    /**
-     * @param Method $method
-     * @return bool
-     */
-    public function hasMethod(Method $method): bool
-    {
-        foreach ($this->methods as $m) {
-            if ($m->getName() === $method->getName()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Method $method
-     */
-    public function removeMethod(Method $method)
-    {
-        $key = array_search($method, $this->methods, true);
-        if ($key !== false) {
-            array_splice($this->methods, $key, 1);
-        }
     }
 }

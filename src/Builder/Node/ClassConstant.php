@@ -10,6 +10,9 @@ use JDWil\PhpGenny\Builder\Node\Traits\VisibilityTrait;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Stmt\ClassConst;
 
+/**
+ * Class ClassConstant
+ */
 class ClassConstant extends AbstractNode
 {
     use VisibilityTrait;
@@ -27,7 +30,12 @@ class ClassConstant extends AbstractNode
      */
     protected $value;
 
-    public static function new(string $name, AbstractNode $value)
+    /**
+     * @param string $name
+     * @param AbstractNode $value
+     * @return ClassConstant
+     */
+    public static function new(string $name, AbstractNode $value): ClassConstant
     {
         $ret = new ClassConstant();
         $ret->name = $name;
@@ -37,16 +45,23 @@ class ClassConstant extends AbstractNode
         return $ret;
     }
 
-    public function done(): Class_
+    /**
+     * @return Class_|Interface_
+     * @throws \Exception
+     */
+    public function done()
     {
-        if (!$this->parent instanceof Class_) {
-            throw new \Exception('Parent of ClassConstant must be an instance of Class_');
+        if (!$this->parent instanceof Class_ && !$this->parent instanceof Interface_) {
+            throw new \Exception('Parent of ClassConstant must be an instance of Class_ or Interface_');
         }
 
         return $this->parent;
     }
 
-    public function getStatements()
+    /**
+     * @return ClassConst
+     */
+    public function getStatements(): ClassConst
     {
         $flags = $this->addVisibilityFlags(0);
         $flags = $this->addStaticFlag($flags);

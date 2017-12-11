@@ -65,13 +65,13 @@ class Method extends Builder
     }
 
     /**
-     * @return Class_
+     * @return Class_|Interface_|Trait_
      * @throws \Exception
      */
-    public function done(): Class_
+    public function done()
     {
-        if (!$this->parent instanceof Class_) {
-            throw new \Exception('Parent of Method must be an instance of Class_');
+        if (!$this->parent instanceof Class_ && !$this->parent instanceof Interface_ && !$this->parent instanceof Trait_) {
+            throw new \Exception('Parent of Method must be an instance of Class_ or Interface_ or Trait_');
         }
 
         return $this->parent;
@@ -104,7 +104,7 @@ class Method extends Builder
     /**
      * @return ClassMethod
      */
-    public function getStatements()
+    public function getStatements(): ClassMethod
     {
         $flags = $this->addVisibilityFlags(0);
         $flags = $this->addStaticFlag($flags);
@@ -117,13 +117,12 @@ class Method extends Builder
         }
 
         if (empty($this->nodes)) {
+            $statements = [];
             if ($this->parent instanceof Interface_ || $this->abstract) {
-                $stmts = null;
-            } else {
-                $stmts = [];
+                $statements = null;
             }
         } else {
-            $stmts = array_map(function (AbstractNode $node) {
+            $statements = array_map(function (AbstractNode $node) {
                 return $node->getStatements();
             }, $this->nodes);
         }
@@ -135,7 +134,7 @@ class Method extends Builder
                 return $parameter->getStatements();
             }, $this->parameters),
             'returnType' => $returnType,
-            'stmts' => $stmts
+            'stmts' => $statements
         ];
 
         $ret = new ClassMethod($this->name, $subNodes);

@@ -219,6 +219,7 @@ code will generate the following source:
 
 IsAwesomeInterface:
 
+[unify]: # (skip)
 ```php
 <?php
 
@@ -241,6 +242,7 @@ interface IsAwesomeInterface
 
 MyClass:
 
+[unify]: # (skip)
 ```php
 <?php
 

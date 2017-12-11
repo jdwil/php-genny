@@ -25,7 +25,7 @@ class Do_ extends Builder
      * @return Builder
      * @throws \Exception
      */
-    public function while(AbstractNode $condition)
+    public function while(AbstractNode $condition): Builder
     {
         $this->condition = $condition;
 

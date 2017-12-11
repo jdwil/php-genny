@@ -43,6 +43,8 @@ class Array_ extends AbstractNode
                 $index = null === $this->index ? null : $this->index->getStatements();
                 return new ArrayDimFetch($this->var->getStatements(), $index);
         }
+        
+        return [];
     }
 
     /**

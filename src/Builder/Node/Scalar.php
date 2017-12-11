@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Builder\Node;
 
+use JDWil\PhpGenny\Builder\Node\Traits\BinaryOpTrait;
 use JDWil\PhpGenny\ValueObject\InternalType;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\LNumber;
@@ -10,6 +11,8 @@ use PhpParser\Node\Scalar\String_;
 
 class Scalar extends AbstractNode implements ResultTypeInterface
 {
+    use BinaryOpTrait;
+
     protected $value;
     protected $type;
 
@@ -52,6 +55,8 @@ class Scalar extends AbstractNode implements ResultTypeInterface
                 return InternalType::float();
             case LNumber::class:
                 return InternalType::int();
+            default:
+                return InternalType::string();
         }
     }
 

@@ -41,9 +41,9 @@ abstract class AbstractNodeContainer extends AbstractNode
     }
 
     /**
-     * @return array
+     * @return mixed
      */
-    public function getStatements(): array
+    public function getStatements()
     {
         return array_map(function ($node) {
             if ($node instanceof AbstractNode) {

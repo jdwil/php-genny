@@ -70,13 +70,13 @@ class Class_ extends AbstractNode implements HasNodeBehaviorInterface
     }
 
     /**
-     * @return Builder
+     * @return Builder|Namespace_
      * @throws \Exception
      */
-    public function done(): Builder
+    public function done()
     {
-        if (!$this->parent instanceof Builder) {
-            throw new \Exception('Parent of Class_ must be an instance of Builder');
+        if (!$this->parent instanceof Builder && !$this->parent instanceof Namespace_) {
+            throw new \Exception('Parent of Class_ must be an instance of Builder or Namespace_');
         }
 
         return $this->parent;
@@ -178,7 +178,7 @@ class Class_ extends AbstractNode implements HasNodeBehaviorInterface
     /**
      * @return \PhpParser\Node\Stmt\Class_
      */
-    public function getStatements()
+    public function getStatements(): \PhpParser\Node\Stmt\Class_
     {
         $flags = $this->addFinalFlag(0);
         $flags = $this->addAbstractFlag($flags);

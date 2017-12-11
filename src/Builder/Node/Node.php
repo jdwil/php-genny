@@ -26,7 +26,7 @@ class Node extends AbstractNode
      * @param array $params
      * @return Node
      */
-    public static function new(string $type, array $params)
+    public static function new(string $type, array $params): Node
     {
         $ret = new Node();
         $ret->type = $type;

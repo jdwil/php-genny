@@ -8,6 +8,7 @@ use JDWil\PhpGenny\Builder\Node\Traits\DocBlockTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\NestedNodeTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\NodeBehaviorTrait;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Nop;
 
 class Interface_ extends AbstractNode implements HasNodeBehaviorInterface
@@ -22,7 +23,7 @@ class Interface_ extends AbstractNode implements HasNodeBehaviorInterface
     protected $name;
 
     /**
-     * @var string
+     * @var string[]
      */
     protected $extends;
 
@@ -122,7 +123,9 @@ class Interface_ extends AbstractNode implements HasNodeBehaviorInterface
         $ret = new \PhpParser\Node\Stmt\Interface_(
             $this->name,
             [
-                'extends' => $this->extends,
+                'extends' => array_map(function (string $name) {
+                    return new Name($name);
+                }, $this->extends),
                 'stmts' => array_map(function (AbstractNode $node) {
                     return $node->getStatements();
                 }, $this->nodes)

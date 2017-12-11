@@ -69,12 +69,12 @@ class Visibility
     public function toPhpParserConstant(): int
     {
         switch ($this->value) {
-            case self::PUBLIC:
-                return Class_::MODIFIER_PUBLIC;
             case self::PROTECTED:
                 return Class_::MODIFIER_PROTECTED;
             case self::PRIVATE:
                 return Class_::MODIFIER_PRIVATE;
+            default:
+                return Class_::MODIFIER_PUBLIC;
         }
     }
 }

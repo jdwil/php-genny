@@ -6,6 +6,9 @@ namespace JDWil\PhpGenny\Builder\Node;
 use JDWil\PhpGenny\Builder\Builder;
 use JDWil\PhpGenny\Builder\Node\Traits\NestedNodeTrait;
 
+/**
+ * Class Switch_
+ */
 class Switch_ extends AbstractNode
 {
     use NestedNodeTrait;
@@ -58,7 +61,10 @@ class Switch_ extends AbstractNode
         return $this->parent;
     }
 
-    public function getStatements()
+    /**
+     * @return \PhpParser\Node\Stmt\Switch_
+     */
+    public function getStatements(): \PhpParser\Node\Stmt\Switch_
     {
         return new \PhpParser\Node\Stmt\Switch_(
             $this->subject->getStatements(),

@@ -7,6 +7,9 @@ use JDWil\PhpGenny\Builder\Node\Traits\ArrayAccessTrait;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 
+/**
+ * Class Func
+ */
 class Func extends AbstractNode
 {
     use ArrayAccessTrait;
@@ -35,7 +38,10 @@ class Func extends AbstractNode
         return $ret;
     }
 
-    public function getStatements()
+    /**
+     * @return FuncCall
+     */
+    public function getStatements(): FuncCall
     {
         $arguments = array_map(function (AbstractNode $arg) {
             return $arg->getStatements();

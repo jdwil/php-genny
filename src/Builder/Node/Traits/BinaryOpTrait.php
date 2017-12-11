@@ -5,13 +5,13 @@ namespace JDWil\PhpGenny\Builder\Node\Traits;
 
 use JDWil\PhpGenny\Builder\Node\AbstractNode;
 use JDWil\PhpGenny\Builder\Node\BinaryOp;
-use PhpParser\Node\Expr\AssignOp\BitwiseXor;
 
 trait BinaryOpTrait
 {
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function concat(AbstractNode $node): BinaryOp
     {
@@ -21,6 +21,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function plus(AbstractNode $node): BinaryOp
     {
@@ -30,6 +31,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function minus(AbstractNode $node): BinaryOp
     {
@@ -39,6 +41,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function dividedBy(AbstractNode $node): BinaryOp
     {
@@ -48,6 +51,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function multipliedBy(AbstractNode $node): BinaryOp
     {
@@ -57,6 +61,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function mod(AbstractNode $node): BinaryOp
     {
@@ -66,6 +71,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function isEqualTo(AbstractNode $node): BinaryOp
     {
@@ -75,6 +81,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function isNotEqualTo(AbstractNode $node): BinaryOp
     {
@@ -84,6 +91,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function isIdenticalTo(AbstractNode $node): BinaryOp
     {
@@ -93,6 +101,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function isNotIdenticalTo(AbstractNode $node): BinaryOp
     {
@@ -102,6 +111,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function isLessThan(AbstractNode $node): BinaryOp
     {
@@ -111,6 +121,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function isLessThanOrEqualTo(AbstractNode $node): BinaryOp
     {
@@ -120,6 +131,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function isGreaterThan(AbstractNode $node): BinaryOp
     {
@@ -129,6 +141,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function isGreaterThanOrEqualTo(AbstractNode $node): BinaryOp
     {
@@ -138,6 +151,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function spaceship(AbstractNode $node): BinaryOp
     {
@@ -147,6 +161,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function coalesce(AbstractNode $node): BinaryOp
     {
@@ -156,6 +171,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function bitwiseAnd(AbstractNode $node): BinaryOp
     {
@@ -165,6 +181,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function bitwiseOr(AbstractNode $node): BinaryOp
     {
@@ -174,6 +191,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function bitwiseXor(AbstractNode $node): BinaryOp
     {
@@ -183,6 +201,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function logicalAnd(AbstractNode $node): BinaryOp
     {
@@ -192,6 +211,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function logicalOr(AbstractNode $node): BinaryOp
     {
@@ -201,6 +221,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function logicalXor(AbstractNode $node): BinaryOp
     {
@@ -210,6 +231,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function shiftLeft(AbstractNode $node): BinaryOp
     {
@@ -219,6 +241,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function shiftRight(AbstractNode $node): BinaryOp
     {
@@ -228,6 +251,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function toThePowerOf(AbstractNode $node): BinaryOp
     {
@@ -237,6 +261,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function booleanAnd(AbstractNode $node): BinaryOp
     {
@@ -246,6 +271,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function booleanOr(AbstractNode $node): BinaryOp
     {
@@ -255,6 +281,7 @@ trait BinaryOpTrait
     /**
      * @param AbstractNode $node
      * @return BinaryOp
+     * @throws \Exception
      */
     public function instanceOf(AbstractNode $node): BinaryOp
     {

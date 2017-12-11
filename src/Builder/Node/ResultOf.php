@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Builder\Node;
 
-use JDWil\PhpGenny\Builder\Node\Traits\ArrayAccessTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\InternalFunctionTrait;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
 
 /**
  * Trait InternalFunctionTrait
@@ -1449,5 +1450,31 @@ class ResultOf
         }
 
         throw new \Exception('Unknown procedure: ' . $name);
+    }
+
+    /**
+     * @param AbstractNode $subject
+     * @param string $method
+     * @param array ...$args
+     * @return Node
+     */
+    public static function methodCall(AbstractNode $subject, string $method, ...$args): Node
+    {
+        return Node::new(MethodCall::class, [$subject->getStatements(), $method, array_map(function(AbstractNode $node) {
+            return $node->getStatements();
+        }, $args)]);
+    }
+
+    /**
+     * @param AbstractNode $subject
+     * @param string $method
+     * @param array ...$args
+     * @return Node
+     */
+    public static function staticMethodCall(AbstractNode $subject, string $method, ...$args): Node
+    {
+        return Node::new(StaticCall::class, [$subject->getStatements(), $method, array_map(function(AbstractNode $node) {
+            return $node->getStatements();
+        }, $args)]);
     }
 }

@@ -13,10 +13,8 @@ use JDWil\PhpGenny\Builder\Node\HasNodeBehaviorInterface;
 use JDWil\PhpGenny\Builder\Node\If_;
 use JDWil\PhpGenny\Builder\Node\Interface_;
 use JDWil\PhpGenny\Builder\Node\Namespace_;
-use JDWil\PhpGenny\Builder\Node\NewInstance;
 use JDWil\PhpGenny\Builder\Node\Node;
 use JDWil\PhpGenny\Builder\Node\Parameter;
-use JDWil\PhpGenny\Builder\Node\ResultTypeInterface;
 use JDWil\PhpGenny\Builder\Node\Scalar;
 use JDWil\PhpGenny\Builder\Node\Switch_;
 use JDWil\PhpGenny\Builder\Node\Trait_;
@@ -24,12 +22,8 @@ use JDWil\PhpGenny\Builder\Node\Traits\InternalFunctionTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\NestedNodeTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\NodeBehaviorTrait;
 use JDWil\PhpGenny\Builder\Node\Try_;
-use JDWil\PhpGenny\Builder\Node\Variable;
 use JDWil\PhpGenny\Builder\Node\While_;
-use JDWil\PhpGenny\Type\Method;
-use JDWil\PhpGenny\Type\NamespaceInterface;
-use JDWil\PhpGenny\ValueObject\InternalType;
-use JDWil\PhpGenny\ValueObject\Visibility;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr\ErrorSuppress;
 use PhpParser\Node\Expr\Exit_;
 use PhpParser\Node\Expr\Print_;
@@ -83,7 +77,24 @@ class Builder extends AbstractNodeContainer implements HasNodeBehaviorInterface
         }
     }
 
-    public function parameter(string $name)
+    /**
+     * @param string $comment
+     * @return $this
+     */
+    public function inlineComment(string $comment)
+    {
+        $this->nodes[] = Node::new(Nop::class, [[
+            'comments' => [new Doc('// ' . $comment)]
+        ]]);
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return Parameter
+     */
+    public function parameter(string $name): Parameter
     {
         return Parameter::named($name);
     }
@@ -118,7 +129,7 @@ class Builder extends AbstractNodeContainer implements HasNodeBehaviorInterface
 
     /**
      * @param AbstractNode $condition
-     * @return While_
+     * @return While_|Do_
      */
     public function while(AbstractNode $condition)
     {
@@ -238,10 +249,29 @@ class Builder extends AbstractNodeContainer implements HasNodeBehaviorInterface
         }
 
         if ($value instanceof AbstractNode) {
-            $value = [$value->getStatements()];
+            $value = $value->getStatements();
         }
 
         $this->nodes[] = Node::new(Print_::class, [$value]);
+
+        return $this;
+    }
+
+    /**
+     * @param $value
+     * @return $this
+     */
+    public function echo($value)
+    {
+        if (is_string($value)) {
+            $value = Scalar::string($value);
+        }
+
+        if ($value instanceof AbstractNode) {
+            $value = [$value->getStatements()];
+        }
+
+        $this->nodes[] = Node::new(Echo_::class, [$value]);
 
         return $this;
     }
@@ -326,7 +356,7 @@ class Builder extends AbstractNodeContainer implements HasNodeBehaviorInterface
      * @param AbstractNode $node
      * @return Builder
      */
-    public function die(AbstractNode $node)
+    public function die(AbstractNode $node): Builder
     {
         return $this->exit($node);
     }
@@ -410,28 +440,9 @@ class Builder extends AbstractNodeContainer implements HasNodeBehaviorInterface
     /**
      * @return Builder
      */
-    public function newLine()
+    public function newLine(): Builder
     {
         return $this->noop();
-    }
-
-    /**
-     * @param $value
-     * @return $this
-     */
-    public function echo($value)
-    {
-        if (is_string($value)) {
-            $value = Scalar::string($value);
-        }
-
-        if ($value instanceof AbstractNode) {
-            $value = [$value->getStatements()];
-        }
-
-        $this->nodes[] = Node::new(Echo_::class, [$value]);
-
-        return $this;
     }
 
     /**

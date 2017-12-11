@@ -54,13 +54,13 @@ class UseTrait extends AbstractNode
     }
 
     /**
-     * @return Class_
+     * @return Class_|Trait_
      * @throws \Exception
      */
-    public function done(): Class_
+    public function done()
     {
-        if (!$this->parent instanceof Class_) {
-            throw new \Exception('Parent of UseTrait must be a Class_');
+        if (!$this->parent instanceof Class_ && !$this->parent instanceof Trait_) {
+            throw new \Exception('Parent of UseTrait must be a Class_ or Trait_');
         }
 
         return $this->parent;

@@ -6,13 +6,16 @@ namespace JDWil\PhpGenny\Builder\Node;
 use PhpParser\Node\Expr\BitwiseNot;
 use PhpParser\Node\Expr\BooleanNot;
 
+/**
+ * Class Logic
+ */
 class Logic
 {
     /**
      * @param AbstractNode $node
      * @return Node
      */
-    public static function not(AbstractNode $node)
+    public static function not(AbstractNode $node): Node
     {
         return Node::new(BooleanNot::class, [$node->getStatements()]);
     }
@@ -21,7 +24,7 @@ class Logic
      * @param AbstractNode $node
      * @return Node
      */
-    public static function bitwiseNot(AbstractNode $node)
+    public static function bitwiseNot(AbstractNode $node): Node
     {
         return Node::new(BitwiseNot::class, [$node->getStatements()]);
     }

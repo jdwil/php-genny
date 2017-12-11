@@ -22,12 +22,12 @@ use JDWil\PhpGenny\Type\Interface_;
 
 $b = new Builder();
 $b
-    ->class('TestClass')
-    ->use(['A', 'B'])
-        ->use('B', 'smallTalk')->insteadOf('A')
-        ->use('A', 'bigTalk')->insteadOf('B')
-        ->alias('B', 'bigTalk')->as('talk', Visibility::isProtected())
-    ->done()
+    ->execute(Type::true())
+    ->execute(Type::false())
+    ->execute(Type::null())
+    ->execute(Type::array())
+    ->execute(Type::array([Scalar::string('foo'), Scalar::string('bar')], false))
+    ->execute(Type::list(Variable::named('x'), Variable::named('y'))->equals(Variable::named('array')))
 ;
 
 $prettyPrinter = new \PhpParser\PrettyPrinter\Standard();

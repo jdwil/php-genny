@@ -94,9 +94,9 @@ class AssignmentOp extends AbstractNode
     {
         if (null !== $this->value) {
             return new $this->type($this->variable->getStatements(), $this->value->getStatements());
-        } else {
-            return new $this->type($this->variable->getStatements());
         }
+
+        return new $this->type($this->variable->getStatements());
     }
 
     protected static function createAssignmentOp(string $type, AbstractNode $variable, AbstractNode $value = null)
