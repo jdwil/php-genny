@@ -1,4 +1,11 @@
-# Builder
+# PHP-Genny User Documentation
+
+### Table of Contents
+
+1. [Builder Reference](builder-reference.md)
+1. [Writer Reference](writing-code.md)
+
+### Overview
 
 PHP Genny comes with a fluid builder API that serves as a wrapper around 
 PHP-Parser's own fluid interface. The builder works with the "Standard"
@@ -43,8 +50,6 @@ use JDWil\PhpGenny\Builder\Node\Scalar;
 use JDWil\PhpGenny\Builder\Node\Variable;
 use JDWil\PhpGenny\Builder\Node\Parameter;
 use JDWil\PhpGenny\ValueObject\InternalType;
-use JDWil\PhpGenny\Builder\Node\Type;
-use JDWil\PhpGenny\Builder\Node\NewInstance;
 
 $b = new Builder();
 $b

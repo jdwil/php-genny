@@ -1,6 +1,7 @@
 {
     "name": "jdwil/php-genny",
     "type": "library",
+    "license": "GPLv3",
     "authors": [
         {
             "name": "JD Williams",
