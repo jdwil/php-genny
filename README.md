@@ -17,9 +17,6 @@ composer require jdwil/php-genny
 The full user documentation can be found 
 [here](docs/user/php-genny.md).
 
-The full developer documentation can be found 
-[here](docs/developer/php-genny.md).
-
 #### Example
 
 [unify]: # (skip)
@@ -83,3 +80,8 @@ $class->addProperty(
 );
 $class->addMethod($getFoo);
 ```
+
+#### TODO
+
+1. Better coverage on tests.
+1. Function Type support.

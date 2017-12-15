@@ -16,7 +16,7 @@
 1. [Imports](#imports)
 1. [Interfaces](#interfaces)
 1. [Logic](#logic)
-1. [Method Calls](#methodcalls)
+1. [Methods](#methods)
 1. [Namespaces](#namespaces)
 1. [NewInstance](#newinstance)
 1. [Parameters](#parameters)
@@ -865,8 +865,9 @@ $p->prettyPrint($b->getStatements());
 
 ## Traits
 
-`See [Properties](#properties)`
-`See [Methods](#methods)`
+_See [Properties](#properties)_
+
+_See [Methods](#methods)_
 
 [Top](#toc)
 
