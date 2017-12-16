@@ -219,7 +219,7 @@ class Builder extends AbstractNodeContainer implements HasNodeBehaviorInterface
      */
     public function throw(AbstractNode $throw)
     {
-        $this->nodes[] = Node::new(Throw_::class, [$throw->getStatements()]);
+        $this->nodes[] = Node::new(Throw_::class, [$throw]);
 
         return $this;
     }

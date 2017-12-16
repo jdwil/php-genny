@@ -20,6 +20,7 @@ declare(strict_types=1);
 namespace JDWil\PhpGenny\Builder\Node;
 
 use JDWil\PhpGenny\Builder\Node\Traits\ArrayAccessTrait;
+use JDWil\PhpGenny\Builder\Node\Traits\BinaryOpTrait;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 
@@ -29,6 +30,7 @@ use PhpParser\Node\Name;
 class Func extends AbstractNode
 {
     use ArrayAccessTrait;
+    use BinaryOpTrait;
 
     /**
      * @var string

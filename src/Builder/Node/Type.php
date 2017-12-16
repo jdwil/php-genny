@@ -50,6 +50,15 @@ class Type extends AbstractNode implements ResultTypeInterface
         return static::buildType(self::FALSE);
     }
 
+    /**
+     * @param string $name
+     * @return Type
+     */
+    public static function constant(string $name): Type
+    {
+        return static::buildType($name);
+    }
+
     public static function array(array $values = [], bool $shortHand = true)
     {
         return static::buildType(self::ARRAY, $values, [

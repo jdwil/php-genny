@@ -77,4 +77,19 @@ trait HasMethodsTrait
             array_splice($this->methods, $key, 1);
         }
     }
+
+    /**
+     * @param string $name
+     * @return false|Method
+     */
+    public function getMethodByName(string $name)
+    {
+        foreach ($this->methods as $method) {
+            if ($method->getName() === $name) {
+                return $method;
+            }
+        }
+
+        return false;
+    }
 }
