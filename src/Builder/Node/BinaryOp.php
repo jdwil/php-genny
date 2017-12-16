@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Builder\Node;
 
+use JDWil\PhpGenny\Builder\Node\Traits\BinaryOpTrait;
 use JDWil\PhpGenny\ValueObject\InternalType;
 use PhpParser\Node\Expr\BinaryOp\BitwiseAnd;
 use PhpParser\Node\Expr\BinaryOp\BitwiseOr;
@@ -51,6 +52,8 @@ use PhpParser\Node\Expr\Instanceof_;
 
 class BinaryOp extends AbstractNode implements ResultTypeInterface
 {
+    use BinaryOpTrait;
+
     const PLUS = 0;
     const MINUS = 1;
     const DIVIDE = 2;
@@ -100,7 +103,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function add(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _add(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::PLUS, $left, $right);
     }
@@ -110,7 +113,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function subtract(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _subtract(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::MINUS, $left, $right);
     }
@@ -120,7 +123,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function divide(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _divide(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::DIVIDE, $left, $right);
     }
@@ -130,7 +133,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function multiply(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _multiply(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::MULTIPLY, $left, $right);
     }
@@ -140,7 +143,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function mod(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _mod(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::MOD, $left, $right);
     }
@@ -150,7 +153,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function bitwiseAnd(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _bitwiseAnd(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::BITWISE_AND, $left, $right);
     }
@@ -160,7 +163,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function bitwiseOr(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _bitwiseOr(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::BITWISE_OR, $left, $right);
     }
@@ -170,7 +173,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function bitwiseXor(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _bitwiseXor(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::BITWISE_XOR, $left, $right);
     }
@@ -180,7 +183,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function coalesce(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _coalesce(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::COALESCE, $left, $right);
     }
@@ -190,7 +193,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function concat(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _concat(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::CONCAT, $left, $right);
     }
@@ -200,7 +203,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function equal(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _equal(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::EQUAL, $left, $right);
     }
@@ -210,7 +213,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function greaterThan(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _greaterThan(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::GREATER_THAN, $left, $right);
     }
@@ -220,7 +223,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function greaterThanOrEqual(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _greaterThanOrEqual(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::GREATER_THAN_OR_EQUAL, $left, $right);
     }
@@ -230,7 +233,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function identical(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _identical(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::IDENTICAL, $left, $right);
     }
@@ -240,7 +243,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function notIdentical(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _notIdentical(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::NOT_IDENTICAL, $left, $right);
     }
@@ -250,7 +253,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function logicalAnd(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _logicalAnd(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::LOGICAL_AND, $left, $right);
     }
@@ -260,7 +263,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function logicalOr(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _logicalOr(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::LOGICAL_OR, $left, $right);
     }
@@ -270,7 +273,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function logicalXor(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _logicalXor(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::LOGICAL_XOR, $left, $right);
     }
@@ -280,7 +283,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function notEqual(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _notEqual(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::NOT_EQUAL, $left, $right);
     }
@@ -290,7 +293,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function shiftLeft(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _shiftLeft(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::SHIFT_LEFT, $left, $right);
     }
@@ -300,7 +303,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function shiftRight(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _shiftRight(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::SHIFT_RIGHT, $left, $right);
     }
@@ -310,7 +313,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function lessThan(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _lessThan(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::LESS_THAN, $left, $right);
     }
@@ -320,7 +323,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function lessThanOrEqual(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _lessThanOrEqual(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::LESS_THAN_OR_EQUAL, $left, $right);
     }
@@ -330,7 +333,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function pow(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _pow(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::POW, $left, $right);
     }
@@ -340,7 +343,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function spaceship(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _spaceship(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::SPACESHIP, $left, $right);
     }
@@ -350,7 +353,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function booleanAnd(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _booleanAnd(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::BOOLEAN_AND, $left, $right);
     }
@@ -360,7 +363,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function booleanOr(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _booleanOr(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::BOOLEAN_OR, $left, $right);
     }
@@ -370,7 +373,7 @@ class BinaryOp extends AbstractNode implements ResultTypeInterface
      * @param AbstractNode $right
      * @return BinaryOp
      */
-    public static function instanceOf(AbstractNode $left, AbstractNode $right): BinaryOp
+    public static function _instanceOf(AbstractNode $left, AbstractNode $right): BinaryOp
     {
         return self::createBinaryOp(self::INSTANCE_OF, $left, $right);
     }

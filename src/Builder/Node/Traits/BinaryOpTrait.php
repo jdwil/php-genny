@@ -31,7 +31,7 @@ trait BinaryOpTrait
      */
     public function concat(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::concat($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_concat($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -41,7 +41,7 @@ trait BinaryOpTrait
      */
     public function plus(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::add($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_add($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -51,7 +51,7 @@ trait BinaryOpTrait
      */
     public function minus(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::subtract($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_subtract($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -61,7 +61,7 @@ trait BinaryOpTrait
      */
     public function dividedBy(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::divide($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_divide($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -71,7 +71,7 @@ trait BinaryOpTrait
      */
     public function multipliedBy(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::multiply($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_multiply($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -81,7 +81,7 @@ trait BinaryOpTrait
      */
     public function mod(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::mod($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_mod($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -91,7 +91,7 @@ trait BinaryOpTrait
      */
     public function isEqualTo(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::equal($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_equal($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -101,7 +101,7 @@ trait BinaryOpTrait
      */
     public function isNotEqualTo(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::notEqual($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_notEqual($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -111,7 +111,7 @@ trait BinaryOpTrait
      */
     public function isIdenticalTo(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::identical($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_identical($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -121,7 +121,7 @@ trait BinaryOpTrait
      */
     public function isNotIdenticalTo(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::notIdentical($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_notIdentical($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -131,7 +131,7 @@ trait BinaryOpTrait
      */
     public function isLessThan(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::lessThan($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_lessThan($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -141,7 +141,7 @@ trait BinaryOpTrait
      */
     public function isLessThanOrEqualTo(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::lessThanOrEqual($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_lessThanOrEqual($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -151,7 +151,7 @@ trait BinaryOpTrait
      */
     public function isGreaterThan(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::greaterThan($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_greaterThan($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -161,7 +161,7 @@ trait BinaryOpTrait
      */
     public function isGreaterThanOrEqualTo(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::greaterThanOrEqual($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_greaterThanOrEqual($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -171,7 +171,7 @@ trait BinaryOpTrait
      */
     public function spaceship(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::spaceship($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_spaceship($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -181,7 +181,7 @@ trait BinaryOpTrait
      */
     public function coalesce(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::coalesce($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_coalesce($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -191,7 +191,7 @@ trait BinaryOpTrait
      */
     public function bitwiseAnd(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::bitwiseAnd($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_bitwiseAnd($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -201,7 +201,7 @@ trait BinaryOpTrait
      */
     public function bitwiseOr(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::bitwiseOr($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_bitwiseOr($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -211,7 +211,7 @@ trait BinaryOpTrait
      */
     public function bitwiseXor(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::bitwiseXor($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_bitwiseXor($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -221,7 +221,7 @@ trait BinaryOpTrait
      */
     public function logicalAnd(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::logicalAnd($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_logicalAnd($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -231,7 +231,7 @@ trait BinaryOpTrait
      */
     public function logicalOr(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::logicalOr($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_logicalOr($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -241,7 +241,7 @@ trait BinaryOpTrait
      */
     public function logicalXor(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::logicalXor($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_logicalXor($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -251,7 +251,7 @@ trait BinaryOpTrait
      */
     public function shiftLeft(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::shiftLeft($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_shiftLeft($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -261,7 +261,7 @@ trait BinaryOpTrait
      */
     public function shiftRight(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::shiftRight($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_shiftRight($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -271,7 +271,7 @@ trait BinaryOpTrait
      */
     public function toThePowerOf(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::pow($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_pow($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -281,7 +281,7 @@ trait BinaryOpTrait
      */
     public function booleanAnd(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::booleanAnd($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_booleanAnd($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -291,7 +291,7 @@ trait BinaryOpTrait
      */
     public function booleanOr(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::booleanOr($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_booleanOr($this->validateBinaryOpClass(), $node);
     }
 
     /**
@@ -301,7 +301,7 @@ trait BinaryOpTrait
      */
     public function instanceOf(AbstractNode $node): BinaryOp
     {
-        return BinaryOp::instanceOf($this->validateBinaryOpClass(), $node);
+        return BinaryOp::_instanceOf($this->validateBinaryOpClass(), $node);
     }
 
     /**
