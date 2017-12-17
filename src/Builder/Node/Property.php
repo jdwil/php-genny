@@ -105,6 +105,8 @@ class Property extends AbstractNode implements HasNodeBehaviorInterface
                 $this->setComments(['@var ' . (string)$type]);
             } else if ($type instanceof \JDWil\PhpGenny\Type\Class_) {
                 $this->setComments(['@var ' . $type->getName()]);
+            } else if (is_string($type)) {
+                $this->setComments(['@var ' . $type]);
             }
         }
 

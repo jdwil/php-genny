@@ -23,12 +23,12 @@ use JDWil\PhpGenny\Builder\Node\Traits\ArrayAccessTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\AssignmentOpTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\BinaryOpTrait;
 use JDWil\PhpGenny\Builder\Node\Traits\ObjectBehaviorTrait;
-use JDWil\PhpGenny\ValueObject\InternalType;
+use PhpParser\Node\Expr\PropertyFetch;
 
 /**
- * Class Variable
+ * Class PropertyReference
  */
-class Variable extends AbstractNode implements ResultTypeInterface
+class PropertyReference extends AbstractNode
 {
     use BinaryOpTrait;
     use AssignmentOpTrait;
@@ -38,43 +38,28 @@ class Variable extends AbstractNode implements ResultTypeInterface
     /**
      * @var string
      */
-    protected $name;
+    protected $property;
 
     /**
-     * @var InternalType|string
+     * @param string $variable
+     * @param string $property
+     * @return PropertyReference
      */
-    protected $type;
-
-    public static function named(string $name): Variable
+    public static function new(string $variable, string $property): PropertyReference
     {
-        $ret = new Variable();
-        $ret->name = $name;
+        $ret = new static();
+        $ret->name = $variable;
+        $ret->property = $property;
 
         return $ret;
     }
 
     /**
-     * @return \PhpParser\Node\Expr\Variable
+     * @return PropertyFetch
      */
-    public function getStatements(): \PhpParser\Node\Expr\Variable
+    public function getStatements(): PropertyFetch
     {
-        return new \PhpParser\Node\Expr\Variable($this->name);
-    }
-
-    /**
-     * @return InternalType|string
-     */
-    public function getResultType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param InternalType|string $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
+        return new PropertyFetch(new \PhpParser\Node\Expr\Variable($this->name), $this->property);
     }
 
     /**

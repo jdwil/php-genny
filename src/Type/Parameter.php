@@ -66,6 +66,14 @@ class Parameter
     }
 
     /**
+     * @param string $name
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @return InternalType|string
      */
     public function getType()
@@ -74,10 +82,26 @@ class Parameter
     }
 
     /**
+     * @param InternalType|string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
      * @return Scalar|Class_|Interface_|Type
      */
     public function getDefaultValue()
     {
         return $this->defaultValue;
+    }
+
+    /**
+     * @param Scalar|Class_|Interface_|Type $defaultValue
+     */
+    public function setDefaultValue($defaultValue)
+    {
+        $this->defaultValue = $defaultValue;
     }
 }

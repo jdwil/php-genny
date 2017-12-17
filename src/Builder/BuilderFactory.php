@@ -390,6 +390,12 @@ class BuilderFactory implements HasNodeBehaviorInterface
     private function sortMethods(array $methods): array
     {
         usort($methods, function (Method $a, Method $b) {
+            $visibility = [
+                'public' => 0,
+                'protected' => 1,
+                'private' => 2
+            ];
+
             if ($a->getName() === '__construct') {
                 return -1;
             }
@@ -398,7 +404,11 @@ class BuilderFactory implements HasNodeBehaviorInterface
                 return 1;
             }
 
-            return 0;
+            if (((string) $a->getVisibility()) !== ((string) $b->getVisibility())) {
+                return $visibility[(string) $a->getVisibility()] < $visibility[(string) $b->getVisibility()] ? -1 : 1;
+            }
+
+            return strcmp($a->getName(), $b->getName());
         });
 
         return $methods;
@@ -625,10 +635,16 @@ class BuilderFactory implements HasNodeBehaviorInterface
                     $p->setDefault($default);
                 }
 
+                if ($type = $property->getType()) {
+                    $p->setType($type);
+                }
+
                 if ($p->hasComment() && $index !== (count($properties) - 1)) {
                     $n->lineBreak();
                 }
             }
+
+            $n->lineBreak();
         }
     }
 
