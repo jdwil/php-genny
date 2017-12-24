@@ -65,7 +65,7 @@ class Func extends AbstractNode
             return $arg->getStatements();
         }, $this->arguments);
 
-        return new FuncCall(new Name($this->name), $arguments);
+        return new FuncCall(new Name('\\' . $this->name), $arguments);
     }
 
     /**

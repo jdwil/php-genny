@@ -44,7 +44,6 @@ class Property
      */
     protected $static;
 
-
     /**
      * @var InternalType|string
      */

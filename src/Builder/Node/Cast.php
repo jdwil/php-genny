@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Builder\Node;
 
+use JDWil\PhpGenny\Builder\Node\Traits\BinaryOpTrait;
 use JDWil\PhpGenny\ValueObject\InternalType;
 use PhpParser\Node\Expr\Cast\Array_;
 use PhpParser\Node\Expr\Cast\Bool_;
@@ -29,6 +30,8 @@ use PhpParser\Node\Expr\Cast\String_;
 
 class Cast extends AbstractNode implements ResultTypeInterface
 {
+    use BinaryOpTrait;
+
     const STRING = 'string';
     const INT = 'int';
     const FLOAT = 'float';

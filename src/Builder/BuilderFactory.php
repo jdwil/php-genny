@@ -25,9 +25,11 @@ use JDWil\PhpGenny\Builder\Node\HasNodeBehaviorInterface;
 use JDWil\PhpGenny\Builder\Node\Namespace_;
 use JDWil\PhpGenny\Builder\Node\NewInstance;
 use JDWil\PhpGenny\Builder\Node\Node;
+use JDWil\PhpGenny\Builder\Node\Parameter;
 use JDWil\PhpGenny\Builder\Node\ResultTypeInterface;
 use JDWil\PhpGenny\Builder\Node\Scalar;
 use JDWil\PhpGenny\Builder\Node\Traits\NodeBehaviorTrait;
+use JDWil\PhpGenny\Builder\Node\Type;
 use JDWil\PhpGenny\Builder\Node\Variable;
 use JDWil\PhpGenny\Type\Class_;
 use JDWil\PhpGenny\Type\HasMethodsInterface;
@@ -40,6 +42,7 @@ use JDWil\PhpGenny\Type\Trait_;
 use JDWil\PhpGenny\ValueObject\InternalType;
 use JDWil\PhpGenny\ValueObject\Visibility;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\Node\Stmt\Throw_;
 
@@ -94,6 +97,11 @@ class BuilderFactory implements HasNodeBehaviorInterface
         return $this->builder;
     }
 
+    /**
+     * @param Class_ $class
+     * @return Builder
+     * @throws \Exception
+     */
     public function constructClassBuilder(Class_ $class)
     {
         $this->builder = new Builder();
@@ -102,7 +110,7 @@ class BuilderFactory implements HasNodeBehaviorInterface
         $this->addStrictTypes();
         $ns = $this->generateNamespace($class);
 
-        $uses = $this->collectClassUseStatements($class);
+        $uses = array_unique($this->collectClassUseStatements($class));
         foreach ($uses as $use) {
             $ns->use($use);
         }
@@ -188,14 +196,19 @@ class BuilderFactory implements HasNodeBehaviorInterface
 
     /**
      * @param Class_ $class
-     * @return Method
+     * @param bool $generateIfDoesNotExist
+     * @return Method|false
      */
-    protected function getConstructor(Class_ $class): Method
+    protected function getConstructor(Class_ $class, bool $generateIfDoesNotExist = true)
     {
         foreach ($class->getMethods() as $method) {
             if ($method->getName() === '__construct') {
                 return $method;
             }
+        }
+
+        if (!$generateIfDoesNotExist) {
+            return false;
         }
 
         $method = new Method('__construct');
@@ -257,6 +270,15 @@ class BuilderFactory implements HasNodeBehaviorInterface
                     $uses[] = $type->getFqn();
                 }
             }
+
+            foreach ($method->getParameters() as $parameter) {
+                $type = $parameter->getType();
+                if ($type instanceof Class_ || $type instanceof Interface_) {
+                    if ($type->getNamespace() !== $o->getNamespace()) {
+                        $uses[] = $type->getFqn();
+                    }
+                }
+            }
         }
 
         return $uses;
@@ -271,6 +293,7 @@ class BuilderFactory implements HasNodeBehaviorInterface
     {
         $throws = [];
         $toProcess = $method->getBody()->getNodes();
+        $processedMethods = [];
 
         while (!empty($toProcess)) {
             $nodes = $this->findRecursive($toProcess, [Node::class]);
@@ -285,8 +308,9 @@ class BuilderFactory implements HasNodeBehaviorInterface
                         $throws[] = $thrown->getType();
                     }
                 } else if ($node->getType() === MethodCall::class) {
-                    if ($m = $o->getMethodByName($node->getParams()[1])) {
+                    if (($m = $o->getMethodByName($node->getParams()[1])) && !\in_array($m->getName(), $processedMethods, true)) {
                         $newNodesToProcess = array_merge($newNodesToProcess, $m->getBody()->getNodes());
+                        $processedMethods[] = $m->getName();
                     }
                 }
             }
@@ -420,11 +444,25 @@ class BuilderFactory implements HasNodeBehaviorInterface
      */
     private function addMethodParameters($method, $m)
     {
-        foreach ($method->getParameters() as $parameter) {
-            $p = $this->builder->parameter($parameter->getName());
-            if ($type = $parameter->getType()) {
-                $p->setType($type);
+        $parameters = $method->getParameters();
+
+        /**
+         * Bubble up parameters without defaults to the front of the list.
+         */
+        usort($parameters, function (\JDWil\PhpGenny\Type\Parameter $p1, \JDWil\PhpGenny\Type\Parameter $p2) {
+            if ($p1->getDefaultValue() !== null && $p2->getDefaultValue() === null) {
+                return 1;
             }
+
+            if ($p1->getDefaultValue() === null && $p2->getDefaultValue() !== null) {
+                return -1;
+            }
+
+            return 0;
+        });
+
+        foreach ($parameters as $parameter) {
+            $p = $this->builder->parameter($parameter->getName());
 
             if ($default = $parameter->getDefaultValue()) {
                 if (is_string($default)) {
@@ -433,11 +471,16 @@ class BuilderFactory implements HasNodeBehaviorInterface
                 $p->setDefault($default);
             }
 
+            if ($type = $parameter->getType()) {
+                $p->setType($type);
+            }
+
             $m->add($p);
 
             if ($this->autoGenerateDocBlocks) {
                 $type = $parameter->getType() ?? InternalType::mixed();
-                $m->addComment('@param ' . (string)$type . ' $' . $parameter->getName());
+                $null = null === $parameter->getDefaultValue() ? '' : '|null';
+                $m->addComment('@param ' . (string) $type . $null . ' $' . $parameter->getName());
             }
         }
     }
@@ -585,6 +628,13 @@ class BuilderFactory implements HasNodeBehaviorInterface
             ) {
                 $ret[] = $default->getFqn();
             }
+
+            if (($type = $property->getType()) &&
+                ($type instanceof Class_ || $type instanceof Interface_) &&
+                $type->getNamespace() !== $o->getNamespace()
+            ) {
+                $ret[] = $type->getFqn();
+            }
         }
     }
 
@@ -635,8 +685,31 @@ class BuilderFactory implements HasNodeBehaviorInterface
                     $p->setDefault($default);
                 }
 
+                switch ((string) $property->getVisibility()) {
+                    case Visibility::PUBLIC:
+                        $p->makePublic();
+                        break;
+                    case Visibility::PROTECTED:
+                        $p->makeProtected();
+                        break;
+                    case Visibility::PRIVATE:
+                        $p->makePrivate();
+                        break;
+                }
+
+                $nullable = false;
+                if ($o instanceof Class_) {
+                    if ($constructor = $this->getConstructor($o, false)) {
+                        foreach ($constructor->getParameters() as $cp) {
+                            if ($cp->getName() === $property->getName() && $cp->getDefaultValue() == Type::null()) {
+                                $nullable = true;
+                            }
+                        }
+                    }
+                }
+
                 if ($type = $property->getType()) {
-                    $p->setType($type);
+                    $p->setType($type, $nullable);
                 }
 
                 if ($p->hasComment() && $index !== (count($properties) - 1)) {
@@ -660,7 +733,7 @@ class BuilderFactory implements HasNodeBehaviorInterface
             foreach ($methods as $index => $method) {
                 $m = $n->method($method->getName());
 
-                if ($method->getName() === '__construct') {
+                if ($this->autoGenerateDocBlocks && $method->getName() === '__construct') {
                     $m->addComment($o->getName() . ' constructor.');
                     $m->addComment('');
                 }

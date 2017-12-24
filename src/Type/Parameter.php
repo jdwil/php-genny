@@ -31,7 +31,7 @@ class Parameter
     protected $name;
 
     /**
-     * @var InternalType|string
+     * @var InternalType|Class_|Interface_|string
      */
     protected $type;
 
@@ -74,7 +74,7 @@ class Parameter
     }
 
     /**
-     * @return InternalType|string
+     * @return InternalType|Class_|Interface_|string
      */
     public function getType()
     {

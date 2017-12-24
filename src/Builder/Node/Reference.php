@@ -20,6 +20,7 @@ declare(strict_types=1);
 namespace JDWil\PhpGenny\Builder\Node;
 
 use JDWil\PhpGenny\Builder\Node\Traits\AssignmentOpTrait;
+use JDWil\PhpGenny\Builder\Node\Traits\ObjectBehaviorTrait;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Name;
@@ -27,6 +28,7 @@ use PhpParser\Node\Name;
 class Reference extends AbstractNode
 {
     use AssignmentOpTrait;
+    use ObjectBehaviorTrait;
 
     /**
      * @var string
@@ -36,6 +38,11 @@ class Reference extends AbstractNode
     public static function self()
     {
         return static::buildStaticReference('self');
+    }
+
+    public static function parent()
+    {
+        return static::buildStaticReference('parent');
     }
 
     public static function static()

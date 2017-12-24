@@ -65,12 +65,14 @@ class Parameter extends AbstractNode
     }
 
     /**
-     * @param InternalType|string $type
+     * @param InternalType|string|\JDWil\PhpGenny\Type\Class_ $type
      * @return $this
      */
     public function setType($type)
     {
-        $this->type = $type;
+        if (((string) $type) !== 'mixed') {
+            $this->type = $type;
+        }
 
         return $this;
     }

@@ -24,6 +24,7 @@ use JDWil\PhpGenny\Type\Traits\HasMethodsTrait;
 use JDWil\PhpGenny\Type\Traits\HasNamespaceTrait;
 use JDWil\PhpGenny\Type\Traits\HasPropertiesTrait;
 use JDWil\PhpGenny\Type\Traits\HasTraitsTrait;
+use JDWil\PhpGenny\ValueObject\InternalType;
 
 /**
  * Class Class_
@@ -69,6 +70,14 @@ class Class_ implements HasConstantsInterface, HasTraitsInterface, HasProperties
     }
 
     /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
+
+    /**
      * @return bool
      */
     public function isAbstract(): bool
@@ -82,6 +91,7 @@ class Class_ implements HasConstantsInterface, HasTraitsInterface, HasProperties
     public function setAbstract(bool $abstract)
     {
         $this->abstract = $abstract;
+        $this->pruneUnneededMethods();
     }
 
     /**
@@ -114,6 +124,27 @@ class Class_ implements HasConstantsInterface, HasTraitsInterface, HasProperties
     public function setExtends($extends)
     {
         $this->extends = $extends;
+
+        if ($extends instanceof self) {
+            foreach ($extends->getImplements() as $implement) {
+                $this->removeImplement($implement);
+            }
+        }
+    }
+
+    /**
+     * @param Interface_ $implement
+     * @return bool
+     */
+    public function hasImplement(Interface_ $implement): bool
+    {
+        foreach ($this->implements as $i) {
+            if ($i->getFqn() === $implement->getFqn()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -121,11 +152,13 @@ class Class_ implements HasConstantsInterface, HasTraitsInterface, HasProperties
      */
     public function implements(Interface_ $implement)
     {
-        $this->implements[] = $implement;
+        if (null === $this->extends || !$this->extends->hasImplement($implement)) {
+            $this->implements[] = $implement;
+        }
 
         foreach ($implement->getMethods() as $method) {
             if (!$this->hasMethod($method)) {
-                $this->addMethod($method);
+                $this->addMethod($method->copy());
             }
         }
     }
@@ -151,6 +184,7 @@ class Class_ implements HasConstantsInterface, HasTraitsInterface, HasProperties
 
     protected function pruneUnneededMethods()
     {
+        /** @var Method[] $methods */
         $methods = [];
 
         foreach ($this->implements as $implement) {
@@ -166,6 +200,10 @@ class Class_ implements HasConstantsInterface, HasTraitsInterface, HasProperties
                         $this->removeMethod($method);
                     }
                 }
+            }
+
+            if ($this->abstract && empty($method->getBody()->getNodes())) {
+                $this->removeMethod($method);
             }
         }
     }

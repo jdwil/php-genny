@@ -37,10 +37,12 @@ trait HasMethodsTrait
      */
     public function addMethod(Method $method)
     {
-        $this->methods[] = $method;
+        if (!$this->hasMethod($method)) {
+            $this->methods[] = $method;
 
-        if ($this instanceof Class_) {
-            $this->pruneUnneededMethods();
+            if ($this instanceof Class_) {
+                $this->pruneUnneededMethods();
+            }
         }
     }
 

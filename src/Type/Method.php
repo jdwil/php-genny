@@ -212,4 +212,22 @@ class Method
     {
         $this->returnTypes[] = $returnType;
     }
+
+    /**
+     * @return Method
+     */
+    public function copy(): Method
+    {
+        $m = new Method($this->name);
+        foreach ($this->parameters as $parameter) {
+            $m->addParameter($parameter);
+        }
+        $m->setReturnTypes($this->returnTypes);
+        $m->setAbstract($this->abstract);
+        $m->setFinal($this->final);
+        $m->setVisibility($this->visibility);
+        $m->body->setNodes($this->body->getNodes());
+
+        return $m;
+    }
 }

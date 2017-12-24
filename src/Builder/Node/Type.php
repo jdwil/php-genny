@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 namespace JDWil\PhpGenny\Builder\Node;
 
+use JDWil\PhpGenny\Builder\Node\Traits\BinaryOpTrait;
 use JDWil\PhpGenny\ValueObject\InternalType;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ConstFetch;
@@ -26,6 +27,8 @@ use PhpParser\Node\Name;
 
 class Type extends AbstractNode implements ResultTypeInterface
 {
+    use BinaryOpTrait;
+
     const NULL = 'null';
     const FALSE = 'false';
     const TRUE = 'true';

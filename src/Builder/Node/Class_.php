@@ -68,6 +68,7 @@ class Class_ extends AbstractNode implements HasNodeBehaviorInterface
         string $name
     ): Class_ {
         $ret = new Class_();
+        $ret->nodes = [];
         $ret->name = $name;
         $ret->abstract = false;
         $ret->final = false;
