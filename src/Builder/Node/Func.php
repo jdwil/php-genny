@@ -32,6 +32,10 @@ class Func extends AbstractNode
     use ArrayAccessTrait;
     use BinaryOpTrait;
 
+    private static $SPECIAL_FUNCTIONS = [
+        'eval', 'empty'
+    ];
+
     /**
      * @var string
      */
@@ -64,6 +68,10 @@ class Func extends AbstractNode
         $arguments = array_map(function (AbstractNode $arg) {
             return $arg->getStatements();
         }, $this->arguments);
+
+        if (\in_array($this->name, self::$SPECIAL_FUNCTIONS, true)) {
+            return new FuncCall(new Name($this->name), $arguments);
+        }
 
         return new FuncCall(new Name('\\' . $this->name), $arguments);
     }

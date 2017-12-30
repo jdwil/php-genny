@@ -45,9 +45,9 @@ class Property
     protected $static;
 
     /**
-     * @var InternalType|string
+     * @var InternalType[]|Class_[]|Interface_[]|string[]
      */
-    protected $type;
+    protected $types;
 
     /**
      * @var Class_|string
@@ -69,6 +69,7 @@ class Property
         $default = null,
         bool $static = false
     ) {
+        $this->types = [];
         $this->name = $name;
 
         if (null === $visibility) {
@@ -79,7 +80,7 @@ class Property
         if (null === $type) {
             $type = InternalType::mixed();
         }
-        $this->type = $type;
+        $this->addType($type);
 
         $this->defaultValue = $default;
         $this->static = $static;
@@ -118,19 +119,27 @@ class Property
     }
 
     /**
-     * @return InternalType|string
+     * @return InternalType[]|Class_[]|Interface_[]|string[]
      */
-    public function getType()
+    public function getTypes(): array
     {
-        return $this->type;
+        return $this->types;
     }
 
     /**
-     * @param InternalType|string $type
+     * @param InternalType[]|Class_[]|Interface_[]|string[] $types
      */
-    public function setType($type)
+    public function setTypes(array $types)
     {
-        $this->type = $type;
+        $this->types = $types;
+    }
+
+    /**
+     * @param InternalType|Class_|Interface_|string $type
+     */
+    public function addType($type)
+    {
+        $this->types[] = $type;
     }
 
     /**
@@ -163,5 +172,76 @@ class Property
     public function setStatic(bool $static)
     {
         $this->static = $static;
+    }
+
+    /**
+     * @return int
+     */
+    public function numTypes(): int
+    {
+        return \count($this->types);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNullable(): bool
+    {
+        foreach ($this->types as $type) {
+            if ($type instanceof InternalType && $type->isNull()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTwoTypes(): bool
+    {
+        return $this->numTypes() === 2;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasOneType(): bool
+    {
+        return $this->numTypes() === 1;
+    }
+
+    /**
+     * @return Class_|Interface_|InternalType|mixed|string
+     */
+    public function getNonNullType()
+    {
+        foreach ($this->types as $type) {
+            if ((string) $type !== 'null') {
+                return $type;
+            }
+        }
+    }
+
+    /**
+     * @return Class_|Interface_|InternalType|mixed|string
+     */
+    public function getType()
+    {
+        if ($this->hasOneType() || ($this->hasTwoTypes() && $this->isNullable())) {
+            return $this->hasTwoTypes() ? $this->getNonNullType() : $this->types[0];
+        }
+
+        return null;
+    }
+
+    /**
+     * @deprecated Use addType instead
+     * @param $type
+     */
+    public function setType($type)
+    {
+        $this->types = [$type];
     }
 }

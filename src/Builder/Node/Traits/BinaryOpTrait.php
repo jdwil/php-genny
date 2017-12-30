@@ -21,6 +21,9 @@ namespace JDWil\PhpGenny\Builder\Node\Traits;
 
 use JDWil\PhpGenny\Builder\Node\AbstractNode;
 use JDWil\PhpGenny\Builder\Node\BinaryOp;
+use JDWil\PhpGenny\Builder\Node\Reference;
+use JDWil\PhpGenny\Type\Class_;
+use JDWil\PhpGenny\Type\Interface_;
 
 trait BinaryOpTrait
 {
@@ -295,13 +298,17 @@ trait BinaryOpTrait
     }
 
     /**
-     * @param AbstractNode $node
+     * @param AbstractNode|Class_|Interface_ $node
      * @return BinaryOp
      * @throws \Exception
      */
-    public function instanceOf(AbstractNode $node): BinaryOp
+    public function instanceOf($node): BinaryOp
     {
-        return BinaryOp::_instanceOf($this->validateBinaryOpClass(), $node);
+        if ($node instanceof AbstractNode) {
+            return BinaryOp::_instanceOf($this->validateBinaryOpClass(), $node);
+        } else {
+            return BinaryOp::_instanceOf($this->validateBinaryOpClass(), Reference::class($node));
+        }
     }
 
     /**

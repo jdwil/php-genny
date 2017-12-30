@@ -20,6 +20,7 @@ declare(strict_types=1);
 namespace JDWil\PhpGenny\ValueObject;
 
 use JDWil\PhpGenny\Type\Class_;
+use JDWil\PhpGenny\Type\Interface_;
 
 class InternalType
 {
@@ -38,7 +39,7 @@ class InternalType
     protected $type;
 
     /**
-     * @var InternalType|Class_|string
+     * @var InternalType|Class_|Interface_|string
      */
     protected $arrayType;
 
@@ -117,6 +118,24 @@ class InternalType
         return $this->type;
     }
 
+    public function getDocblockString(): string
+    {
+        if ($this->type === self::ARRAY && null !== $this->arrayType) {
+            if ($this->arrayType instanceof Class_ || $this->arrayType instanceof Interface_) {
+                if ($this->arrayType->getName() === 'NonNegativeInteger') {
+                    echo "Got it\n";
+                }
+                return $this->arrayType->getName() . '[]';
+            } else if ($this->arrayType instanceof self) {
+                return (string) $this->arrayType . '[]';
+            } else {
+                return $this->arrayType . '[]';
+            }
+        }
+
+        return (string) $this;
+    }
+
     public function getArrayType()
     {
         if (!self::ARRAY === $this->type) {
@@ -139,6 +158,16 @@ class InternalType
     public function isInt(): bool
     {
         return self::INT === $this->type;
+    }
+
+    public function isFloat(): bool
+    {
+        return self::FLOAT === $this->type;
+    }
+
+    public function isBool(): bool
+    {
+        return self::BOOL === $this->type;
     }
 
     public function isNull(): bool

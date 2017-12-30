@@ -31,6 +31,11 @@ class Parameter
     protected $name;
 
     /**
+     * @var bool
+     */
+    protected $variadic;
+
+    /**
      * @var InternalType|Class_|Interface_|string
      */
     protected $type;
@@ -45,8 +50,9 @@ class Parameter
      * @param string $name
      * @param $type
      * @param null $defaultValue
+     * @param bool $variadic
      */
-    public function __construct(string $name, $type, $defaultValue = null)
+    public function __construct(string $name, $type, $defaultValue = null, bool $variadic = false)
     {
         if ($name[0] === '$') {
             $name = (string) substr($name, 1);
@@ -54,6 +60,7 @@ class Parameter
 
         $this->name = $name;
         $this->type = $type;
+        $this->variadic = $variadic;
         $this->defaultValue = $defaultValue;
     }
 
@@ -82,7 +89,7 @@ class Parameter
     }
 
     /**
-     * @param InternalType|string $type
+     * @param InternalType|Class_|Interface_|string $type
      */
     public function setType($type)
     {
@@ -103,5 +110,21 @@ class Parameter
     public function setDefaultValue($defaultValue)
     {
         $this->defaultValue = $defaultValue;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVariadic(): bool
+    {
+        return $this->variadic;
+    }
+
+    /**
+     * @param bool $variadic
+     */
+    public function setVariadic(bool $variadic)
+    {
+        $this->variadic = $variadic;
     }
 }

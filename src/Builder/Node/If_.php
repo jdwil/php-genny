@@ -73,7 +73,15 @@ class If_ extends Builder
     }
 
     /**
-     * @return Builder
+     * @return AbstractNode
+     */
+    public function getCondition(): AbstractNode
+    {
+        return $this->condition;
+    }
+
+    /**
+     * @return Builder|Foreach_
      * @throws \Exception
      */
     public function done(): Builder
@@ -83,6 +91,19 @@ class If_ extends Builder
         }
 
         return $this->parent;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [
+            'nodes' => parent::getNodes(),
+            'condition' => $this->condition,
+            'elseIfs' => $this->elseIfs,
+            'else' => $this->else
+        ];
     }
 
     public function getStatements()

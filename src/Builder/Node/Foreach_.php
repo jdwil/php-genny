@@ -78,6 +78,19 @@ class Foreach_ extends Builder
         return $this->parent;
     }
 
+    /**
+     * @return array
+     */
+    public function getNodes(): array
+    {
+        return [
+            'nodes' => parent::getNodes(),
+            'subject' => $this->subject,
+            'valueVar' => $this->valueVar,
+            'keyVar' => $this->keyVar
+        ];
+    }
+
     public function getStatements()
     {
         $params = [

@@ -35,6 +35,11 @@ class Reference extends AbstractNode
      */
     protected $name;
 
+    /**
+     * @var \JDWil\PhpGenny\Type\Class_|\JDWil\PhpGenny\Type\Interface_
+     */
+    protected $referenceObject;
+
     public static function self()
     {
         return static::buildStaticReference('self');
@@ -50,14 +55,25 @@ class Reference extends AbstractNode
         return static::buildStaticReference('static');
     }
 
-    public static function class(string $name)
+    public static function class($name)
     {
-        return static::buildStaticReference($name);
+        if (is_string($name)) {
+            return static::buildStaticReference($name);
+        }
+
+        $ret = new static;
+        $ret->referenceObject = $name;
+
+        return $ret;
     }
 
     public function getStatements()
     {
-        return new Name($this->name);
+        if (null !== $this->name) {
+            return new Name($this->name);
+        }
+
+        return new Name($this->referenceObject->getName());
     }
 
     /**
@@ -80,7 +96,17 @@ class Reference extends AbstractNode
 
     public function getNodes(): array
     {
-        return [];
+        return [
+            'referenceObject' => $this->referenceObject
+        ];
+    }
+
+    /**
+     * @return \JDWil\PhpGenny\Type\Class_|\JDWil\PhpGenny\Type\Interface_|null
+     */
+    public function getReferenceObject()
+    {
+        return $this->referenceObject;
     }
 
     /**

@@ -48,7 +48,7 @@ trait AssignmentOpTrait
 {
     public function __call($name, $arguments)
     {
-        return AssignmentOp::$name($this->validateAssignmentOpClass(), $arguments[0]);
+        return AssignmentOp::$name($this->validateAssignmentOpClass(), $arguments[0] ?? null);
     }
 
     private function validateAssignmentOpClass(): AbstractNode

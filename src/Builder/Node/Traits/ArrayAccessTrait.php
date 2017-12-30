@@ -29,7 +29,7 @@ trait ArrayAccessTrait
      * @return Array_
      * @throws \Exception
      */
-    public function arrayIndex(AbstractNode $index): Array_
+    public function arrayIndex(AbstractNode $index = null): Array_
     {
         return Array_::fetchDimension($this->validateInstanceOfAbstractNode(), $index);
     }

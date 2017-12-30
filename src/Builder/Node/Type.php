@@ -113,6 +113,14 @@ class Type extends AbstractNode implements ResultTypeInterface
     }
 
     /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
      * @return array
      */
     public function getNodes(): array

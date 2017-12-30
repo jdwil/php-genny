@@ -25,6 +25,7 @@ use JDWil\PhpGenny\Builder\Node\Func;
  * Trait InternalFunctionTrait
  *
  * @method eval($code)
+ * @method empty($value)
  * @method zend_version()
  * @method func_num_args()
  * @method func_get_arg($arg_num)
@@ -1461,7 +1462,7 @@ trait InternalFunctionTrait
             return Func::call($name, $arguments);
         }
 
-        if ('eval' === $name) {
+        if (\in_array($name, ['eval', 'empty'], true)) {
             return Func::call($name, $arguments);
         }
 

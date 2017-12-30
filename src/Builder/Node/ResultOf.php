@@ -27,6 +27,7 @@ use PhpParser\Node\Expr\StaticCall;
  * Trait InternalFunctionTrait
  *
  * @method static Func eval($code)
+ * @method static Func empty($value)
  * @method static Func zend_version()
  * @method static Func func_num_args()
  * @method static Func func_get_arg($arg_num)

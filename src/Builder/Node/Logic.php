@@ -33,7 +33,7 @@ class Logic
      */
     public static function not(AbstractNode $node): Node
     {
-        return Node::new(BooleanNot::class, [$node->getStatements()]);
+        return Node::new(BooleanNot::class, [$node]);
     }
 
     /**
@@ -42,6 +42,6 @@ class Logic
      */
     public static function bitwiseNot(AbstractNode $node): Node
     {
-        return Node::new(BitwiseNot::class, [$node->getStatements()]);
+        return Node::new(BitwiseNot::class, [$node]);
     }
 }

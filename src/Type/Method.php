@@ -64,6 +64,11 @@ class Method
     protected $body;
 
     /**
+     * @var Class_[]|string[]
+     */
+    protected $throws;
+
+    /**
      * Method constructor.
      * @param string $name
      * @param Visibility $visibility
@@ -88,6 +93,7 @@ class Method
         $this->parameters = $parameters;
         $this->returnTypes = $returnTypes;
         $this->body = new Builder();
+        $this->throws = [];
     }
 
     /**
@@ -211,6 +217,27 @@ class Method
     public function addReturnType($returnType)
     {
         $this->returnTypes[] = $returnType;
+    }
+
+    /**
+     * @param Class_|string $throw
+     */
+    public function throws($throw)
+    {
+        $this->throws[] = $throw;
+    }
+
+    /**
+     * @return array
+     */
+    public function getThrows(): array
+    {
+        return $this->throws;
+    }
+
+    public function clearThrows()
+    {
+        $this->throws = [];
     }
 
     /**

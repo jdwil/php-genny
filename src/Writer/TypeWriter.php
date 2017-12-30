@@ -97,9 +97,8 @@ class TypeWriter
         }
 
         $path = sprintf(
-            '%s/%s/%s',
+            '%s/%s',
             $this->baseDirectory,
-            $this->namespaceToPath($this->getNamespacePrefix()),
             $this->namespaceToPath($o->getNamespace())
         );
 
@@ -160,6 +159,12 @@ class TypeWriter
      */
     private function namespaceToPath(string $namespace): string
     {
-        return str_replace('\\', '/', $namespace);
+        $ret = str_replace('\\', '/', $namespace);
+        $nsPath = str_replace('\\', '/', $this->namespacePrefix);
+        if (strpos($ret, $nsPath) !== false) {
+            $ret = str_replace([$nsPath, '//'], ['', '/'], $ret);
+        }
+
+        return $ret;
     }
 }
