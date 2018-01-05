@@ -160,9 +160,11 @@ class TypeWriter
     private function namespaceToPath(string $namespace): string
     {
         $ret = str_replace('\\', '/', $namespace);
-        $nsPath = str_replace('\\', '/', $this->namespacePrefix);
-        if (strpos($ret, $nsPath) !== false) {
-            $ret = str_replace([$nsPath, '//'], ['', '/'], $ret);
+        if (!empty($this->namespacePrefix)) {
+            $nsPath = str_replace('\\', '/', $this->namespacePrefix);
+            if (strpos($ret, $nsPath) !== false) {
+                $ret = str_replace([$nsPath, '//'], ['', '/'], $ret);
+            }
         }
 
         return $ret;
